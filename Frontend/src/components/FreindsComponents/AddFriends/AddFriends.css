@@ -1,0 +1,73 @@
+.add-friends-container {
+    height: 100vh;
+    position: sticky;
+    display: flex;
+    width: 100%;
+}
+
+.add-friends {
+    margin: 0.7rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.add-friends>h1 {
+    margin: 0;
+}
+
+.add-friends>hr {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.search-friend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.search-friend>input {
+    padding: 10px;
+    border: 0;
+    width: 80%;
+    border-radius: 16px;
+    margin: 5px;
+    font-size: large;
+    background: rgba(192, 192, 192, 0.462);
+}
+
+.search-icon {
+    padding: 10px;
+    margin-left: 20px;
+    scale: 1.1;
+}
+
+.search-icon:hover {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.found-friends {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.found-friends::-webkit-scrollbar {
+    display: none;
+}

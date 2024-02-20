@@ -1,0 +1,211 @@
+.group-details-container {
+    height: 100vh;
+    position: sticky;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.group-details-box {
+    margin: 0.7rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.group-details-box>h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.group-details-box>hr {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.edit-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.group-edit-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.group-edit-image>img {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    object-fit: contain;
+    margin: 10px;
+}
+
+.group-edit-button {
+    border: 1px solid black;
+    padding: 8px 15px;
+    border-radius: 10px;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.group-edit-button:hover {
+    border: 1px solid rgb(0, 138, 28);
+    background: rgb(0, 138, 28);
+}
+
+.group-edit-button>input {
+    display: none;
+}
+
+.group-edit-name {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.group-edit-name>label {
+    font-size: large;
+}
+
+.group-edit-name>input {
+    font-size: large;
+    border: 0px;
+    background: none;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.group-edit-name>input:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+}
+
+.members-details {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    height: 35vh;
+    width: 35vw;
+    gap: 10px;
+    justify-content: space-between;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.members-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.member-option {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.member-option-active {
+    padding: 10px;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.members-list {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: scroll;
+}
+
+.members-list::-webkit-scrollbar {
+    display: none;
+}
+
+.friend-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    width: 20vw;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.friend-name-image {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.friend-detail>a {
+    color: black;
+}
+
+.member-add-button,
+.member-remove-button {
+    border: 0.5px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.member-add-button:hover {
+    color: white;
+    background: rgb(0, 138, 28);
+    border: 0.5px solid rgb(0, 138, 28);
+}
+
+.member-remove-button:hover {
+    color: white;
+    background: rgb(167, 0, 0);
+    border: 0.5px solid rgb(167, 0, 0);
+}
+
+.friend-name-image>img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.group-leave-delete {
+    display: flex;
+    gap: 5vw;
+}
+
+.group-red-button {
+    padding: 8px 15px;
+    border-radius: 10px;
+    color: white;
+    background: black;
+}
+
+.group-red-button:hover {
+    background: rgb(167, 0, 0);
+    cursor: pointer;
+}

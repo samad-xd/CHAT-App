@@ -1,0 +1,42 @@
+.blocked-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    overflow: scroll;
+}
+
+.blocked-users::-webkit-scrollbar {
+    display: none;
+}
+
+.blocked-user {
+    display: flex;
+    font-size: large;
+    justify-content: space-between;
+    width: 50%;  
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 10px;
+}
+
+.blocked-user-name {
+    display: flex;
+    align-self: center;
+    margin: 10px;
+}
+
+.unblock-button {
+    border: 1px solid black;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.unblock-button:hover {
+    background: black;
+    color: white;
+}

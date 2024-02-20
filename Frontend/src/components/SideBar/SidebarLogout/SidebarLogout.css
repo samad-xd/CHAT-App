@@ -1,0 +1,15 @@
+.sidebar-logout {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-self: center;
+}
+
+.sidebar-logout:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 7px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}

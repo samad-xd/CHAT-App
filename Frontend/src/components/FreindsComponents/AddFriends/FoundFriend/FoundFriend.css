@@ -1,0 +1,56 @@
+.found-friend {
+    display: flex;
+    padding: 10px;
+    margin: 5px;
+    gap: 20px;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.found-friend:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.found-friend-details {
+    display: flex;
+    gap: 20px;
+}
+
+.found-friend-details > img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.found-friend-name {
+    display: flex;
+    align-self: center;
+    font-size: large;
+    text-overflow: ellipsis;
+}
+
+.request-buttons {
+    display: flex;
+}
+
+.request-button {
+    display: flex;
+    align-self: center;
+    padding: 10px;
+    margin: 0px 5px;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.request-button:hover {
+    background: rgba(0, 175, 67, 0.559);
+}

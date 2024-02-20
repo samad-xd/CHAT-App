@@ -1,0 +1,36 @@
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import LoginForm from '../../components/Forms/LoginForm';
+import { login } from '../../APIs/authAPI';
+import { updateLoginState } from '../../store/auth';
+
+export default function Login() {
+
+    const isLoggedIn = useSelector(state => state.authReducer.isLoggedIn);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    if (isLoggedIn) {
+        return <Navigate to='/chat' />
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        try {
+            const formData = new FormData(event.target);
+            const loginData = Object.fromEntries(formData);
+            const responseData = await login(loginData);
+            localStorage.setItem('token', responseData.token);
+            dispatch(updateLoginState({ user: responseData.user, AI: responseData.AI, isLoggedIn: true }));
+            navigate('/chat');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    return (
+        <LoginForm onSubmit={handleSubmit} />
+    );
+}

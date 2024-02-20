@@ -1,0 +1,141 @@
+.profile-page {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-container {
+    margin: 0.7rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-self: center;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+.image-border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 8rem;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.image-border>img {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.profile-name {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.back-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.back-button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.back-button:hover {
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.remove-friend-button,
+.add-friend-button {
+    border: 1px solid black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.remove-friend-button:hover {
+    border: 1px solid rgb(150, 0, 0);
+    background: rgb(150, 0, 0);
+    color: white;
+}
+
+.add-friend-button:hover {
+    border: 1px solid rgb(0, 98, 46);
+    background: rgb(0, 98, 46);
+    color: white;
+}
+
+.friends-cards-container {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    margin: 20px 15vw;
+}
+
+.friend-profile-name {
+    font-size: large;
+    margin: 10px 0px;
+}
+
+.friends-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-evenly;
+}
+
+.friends-title {
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    margin: 20px 0px;
+}
+
+.friend-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.friend-card>img {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 10%;
+    object-fit: cover;
+}
+
+.friends-cards>a {
+    color: black;
+}

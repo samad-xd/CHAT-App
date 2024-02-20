@@ -1,0 +1,78 @@
+.friend-requests-container {
+    height: 100vh;
+    position: sticky;
+    display: flex;
+    width: 100%;
+}
+
+.friend-requests {
+    margin: 0.7rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.friend-requests>h1 {
+    margin: 0;
+}
+
+.friend-requests>hr {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.request-types {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+}
+
+.request-type {
+    font-size: x-large;
+    font-weight: bold;
+    width: 50%;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.request-type:hover {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.underlines {
+    display: flex;
+}
+
+.underlines>hr {
+    border: 1px solid black;
+    width: 40%;
+}
+
+.notSelected {
+    opacity: 0%;
+}
+
+.requests {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    align-items: center;
+}
+
+.requests::-webkit-scrollbar {
+    display: none;
+}

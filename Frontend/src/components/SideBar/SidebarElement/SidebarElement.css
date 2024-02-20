@@ -1,0 +1,41 @@
+.sidebar-element {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    width: 80%;
+    height: 10%;
+}
+
+.sidebar-element-active {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    width: 80%;
+    height: 10%;
+    font-size: large;
+    color: white;
+    background: black;
+    border-radius: 7px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.sidebar-element:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 7px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.sidebar-icon {
+    margin: 5px 10px;
+}
+
+.sidebar-element > span {
+    margin-bottom: 5px;
+    font-size: large;
+}

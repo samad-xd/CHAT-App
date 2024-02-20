@@ -1,0 +1,31 @@
+.chat-details {
+    position: absolute;
+    right: 6%;
+    top: 7%;
+    border: 1px solid black;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px 0px 16px 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 20px;
+    width: max-content;
+}
+
+.chat-detail-options {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.chat-option {
+    border-radius: 5px;
+    padding: 5px 7px;
+    color: black;
+}
+
+.chat-option:hover {
+    background: #2B0143;
+    cursor: pointer;
+    color: white;
+}

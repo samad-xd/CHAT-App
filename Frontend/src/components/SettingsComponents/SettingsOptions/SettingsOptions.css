@@ -1,0 +1,68 @@
+.settings-container {
+    height: 100vh;
+    display: flex;
+    width: 30%;
+}
+
+.settings-box {
+    margin: 0.7rem;
+    padding: 1rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.settings-box>h1 {
+    margin: 0;
+}
+
+.settings-box>hr {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.settings-option {
+    font-size: large;
+    cursor: pointer;
+    width: 80%;
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.settings-option:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.settings-option-active {
+    font-size: large;
+    cursor: pointer;
+    width: 80%;
+    padding: 10px 0px;
+    text-align: center;
+    scale: 1.1;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}

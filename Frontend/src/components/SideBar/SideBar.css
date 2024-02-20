@@ -1,0 +1,62 @@
+.sidebar-container {
+    height: 100vh;
+    position: sticky;
+    left: 0;
+    top: 0;
+    display: flex;
+}
+
+.sidebar {
+    margin: 0.7rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.toggle-icon {
+    display: flex;
+    align-self: flex-end;
+    margin: 5px;
+    padding: 5px;
+}
+
+.toggle-icon:hover {
+    cursor: pointer;
+    color: white;
+    background: black;
+    border-radius: 100%;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.profile-pic {
+    font-size: small;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    align-self: center;
+    align-items: center;
+    margin: 20px 0px;
+}
+
+a>img {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.sidebar-elements {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+}
