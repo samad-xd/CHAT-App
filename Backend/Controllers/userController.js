@@ -7,7 +7,7 @@ export async function findFriends(req, res) {
         const result = await User.find({ name });
         res.status(200).json({ result });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -17,7 +17,7 @@ export async function getAllFriendRequests(req, res) {
         res.status(200).json({ sentRequests: user.sentRequests, pendingRequests: user.pendingRequests });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -33,7 +33,7 @@ export async function addFriendRequest(req, res) {
         res.status(200).json({ user, message: 'friend request sent' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -53,7 +53,7 @@ export async function acceptFriendRequest(req, res) {
         res.status(200).json({ user, message: 'friend request accepted' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -71,7 +71,7 @@ export async function rejectFriendRequest(req, res) {
         res.status(200).json({ user, message: 'friend request rejected' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -89,7 +89,7 @@ export async function cancelFriendRequest(req, res) {
         res.status(200).json({ user, message: 'friend request cancelled' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -108,7 +108,7 @@ export async function removeFriend(req, res) {
         res.status(200).json({ user, message: 'friend removed successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -119,7 +119,7 @@ export async function getUserProfile(req, res) {
         res.status(200).json({ user, message: 'user profile fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -138,7 +138,7 @@ export async function blockUser(req, res) {
         res.status(200).json({ user, message: 'user blocked successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -156,7 +156,7 @@ export async function unblockUser(req, res) {
         res.status(200).json({ user, message: 'user unblocked successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -166,7 +166,7 @@ export async function getBlockedUsers(req, res) {
         res.status(200).json({ blockedUsers: user.blocked, message: 'fetched all blocked users successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -179,7 +179,7 @@ export async function updateName(req, res) {
         res.status(200).json({ user, message: 'Name changed successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -194,7 +194,7 @@ export async function updatePassword(req, res) {
         res.status(200).json({ user, message: 'Password changed successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -207,7 +207,7 @@ export async function updateProfilePicture(req, res) {
         res.status(200).json({ user, message: 'Profile Picture changed successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -217,6 +217,6 @@ export async function deleteAcount(req, res) {
         res.status(200).json({ message: 'Account deleted successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }

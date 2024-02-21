@@ -8,9 +8,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import ReplayIcon from '@mui/icons-material/Replay';
 
 import { getAllFriendsData } from '../../../APIs/chatAPI';
-import Loading from '../../Loading/Loading';
 import Conversation from './Conversation/Conversation';
 import { changeChats } from '../../../store/chat';
+import Loading from '../../LoadingComponents/Loading/Loading';
 
 export default function Chats() {
 
@@ -68,7 +68,7 @@ export default function Chats() {
                     <SearchIcon className='search-icon-2' onClick={handleSearch} />
                     <ReplayIcon className='search-icon-2' onClick={handleReset} />
                 </div>
-                {isLoading && <div className='loading'><Loading /></div>}
+                {isLoading && <Loading />}
                 {!isLoading && (
                     <div className="chats-list">
                         {searchRef.current.value === '' &&

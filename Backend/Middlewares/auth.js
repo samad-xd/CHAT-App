@@ -6,7 +6,7 @@ export default async function isAuth(req, res, next) {
         const token = req.headers.authorization;
         const decodedUser = verifyToken(token);
         if (!decodedUser) {
-            throw new Error({ message: 'Session expired' });
+            throw new Error('Session expired');
         }
         req.user = await User.findById(decodedUser.userId);
         if(!req.user) {
@@ -15,6 +15,6 @@ export default async function isAuth(req, res, next) {
         next();
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }

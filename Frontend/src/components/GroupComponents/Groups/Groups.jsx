@@ -4,12 +4,12 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ReplayIcon from '@mui/icons-material/Replay';
 import './Groups.css';
 import { useEffect, useRef, useState } from 'react';
-import Loading from '../../Loading/Loading';
 import GroupConversation from './GroupConversation/GroupConversation';
 import NewGroupForm from './NewGroupForm/NewGroupForm';
 import { changeGroups } from '../../../store/group';
 import { getAllGroupsData } from '../../../APIs/GroupsAPI';
 import { useDispatch, useSelector } from 'react-redux';
+import Loading from '../../LoadingComponents/Loading/Loading';
 
 export default function Groups() {
 
@@ -68,7 +68,7 @@ export default function Groups() {
                     <SearchIcon className='search-icon-2' onClick={handleSearch} />
                     <ReplayIcon className='search-icon-2' onClick={handleReset} />
                 </div>
-                {isLoading && <div className='loading'><Loading /></div>}
+                {isLoading && <Loading />}
                 {!isLoading && (
                     <div className="chats-list">
                         {searchRef.current.value === '' &&

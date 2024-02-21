@@ -5,7 +5,7 @@ import SettingBox from "../../components/SettingsComponents/SettingBox/SettingBo
 
 export default function Settings() {
 
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState('edit-profile');
 
     return (
         <div className="settings">

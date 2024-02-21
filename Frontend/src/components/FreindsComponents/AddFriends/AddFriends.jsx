@@ -22,7 +22,7 @@ export default function AddFriends() {
     return (
         <motion.div
             className="add-friends-container"
-            initial={{ x: -40 }}
+            initial={{ x: +40 }}
             animate={{ x: 0 }}
             exit={{ x: -40 }}
         >

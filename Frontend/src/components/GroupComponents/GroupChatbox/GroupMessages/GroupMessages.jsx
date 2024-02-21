@@ -1,7 +1,7 @@
 import { format } from 'timeago.js';
 import { useEffect, useRef } from 'react';
-import Loading from "../../../Loading/Loading";
 import { useSelector } from 'react-redux';
+import Loading from '../../../LoadingComponents/Loading/Loading';
 
 export default function GroupMessages({ messages, isLoading }) {
 
@@ -15,7 +15,7 @@ export default function GroupMessages({ messages, isLoading }) {
 
     return (
         <div className='messages'>
-            {isLoading && <div className='loading'><Loading /></div>}
+            {isLoading && <Loading />}
             {messages.map((message, index) => (
                 <div key={index} ref={scroll} className={message.senderId === user._id ? 'message own' : 'message'}>
                     {message.senderId !== user._id && <span className='sender-name'>{message.senderName}</span>}

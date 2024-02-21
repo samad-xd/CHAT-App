@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './Notifications.css';
 import { getAllNotifications, readNotification } from '../../APIs/notificationAPI';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/LoadingComponents/Loading/Loading';
 
 export default function Notifications() {
 
@@ -78,26 +78,28 @@ export default function Notifications() {
     }
 
     return (
-        <motion.div
-            className="notifications-container"
-            initial={{ x: -40 }}
-            animate={{ x: 0 }}
-            exit={{ x: -40 }}
-        >
-            <div className="notifications">
-                <h1>Notifications</h1>
-                <hr />
-                {isloading && <div className='loading'><Loading /></div>}
-                {!isloading &&
-                    <div className="notifications-list">
-                        {notifications.map(notification => (
-                            <div key={notification._id} onClick={() => handleClick(notification)}>
-                                {renderNotification(notification)}
-                            </div>
-                        ))}
-                    </div>
-                }
-            </div>
-        </motion.div>
+        <div className='notifications'>
+            <motion.div
+                className="notifications-container"
+                initial={{ x: +40 }}
+                animate={{ x: 0 }}
+                exit={{ x: -40 }}
+            >
+                <div className="notifications-box">
+                    <h1>Notifications</h1>
+                    <hr />
+                    {isloading && <Loading />}
+                    {!isloading &&
+                        <div className="notifications-list">
+                            {notifications.map(notification => (
+                                <div key={notification._id} onClick={() => handleClick(notification)}>
+                                    {renderNotification(notification)}
+                                </div>
+                            ))}
+                        </div>
+                    }
+                </div>
+            </motion.div>
+        </div>
     );
 }

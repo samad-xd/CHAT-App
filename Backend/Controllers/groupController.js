@@ -10,7 +10,7 @@ export async function createGroup(req, res) {
         res.status(200).json({ group, message: 'Group created successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -21,7 +21,7 @@ export async function deleteGroup(req, res) {
         res.status(200).json({ message: 'Group deleted successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -32,7 +32,7 @@ export async function getAllGroups(req, res) {
         res.status(200).json({ groups, message: 'Groups fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -43,7 +43,7 @@ export async function getGroupMembers(req, res) {
         res.status(200).json({ members: group.members, message: 'Groups fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -58,7 +58,7 @@ export async function getMembersNotInGroup(req, res) {
         res.status(200).json({ friends, message: 'Groups fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -69,7 +69,7 @@ export async function getGroupMessages(req, res) {
         res.status(200).json({ groupMessages, message: 'Group messages fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -80,7 +80,7 @@ export async function addGroupMessage(req, res) {
         res.status(200).json({ message: 'Group message added successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -93,7 +93,7 @@ export async function addToGroup(req, res) {
         res.status(200).json({ message: 'User added Group successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -104,10 +104,13 @@ export async function removeFromGroup(req, res) {
         const members = group.members.filter(id => id.toString() !== userId.toString());
         group.members = members;
         await group.save();
+        if(members.length === 0) {
+            await Group.findByIdAndDelete(groupId);
+        }
         res.status(200).json({ message: 'User removed from Group successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -121,7 +124,7 @@ export async function updateGroupName(req, res) {
         res.status(200).json({ group, message: 'Group name updated successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -135,6 +138,6 @@ export async function updateGroupImage(req, res) {
         res.status(200).json({ group, message: 'Group image updated successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }

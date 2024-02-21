@@ -26,67 +26,53 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage });
 
 export async function cloudinaryUpload(req, res, next) {
-
     const imagePath = req.file?.path;
-
     if (!imagePath) {
         return next();
     }
-
     const options = {
         use_filename: true,
         unique_filename: false,
         overwrite: true,
     };
-
     try {
         const uploadedImageData = await cloudinary.uploader.upload(imagePath, options);
         req.file = uploadedImageData;
         next();
     } catch (error) {
         console.error(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
 export async function cloudinaryDelete(req, res, next) {
-
     const imageUrl = req.user.imageUrl;
-
     if (!imageUrl) {
         return next();
     }
-
     const publicId = imageUrl.split('/').pop().split('.')[0];
-
     try {
         await cloudinary.uploader.destroy(publicId);
         next();
     } catch (error) {
         console.error(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
 export async function cloudinaryGroupImageDelete(req, res, next) {
-
     const { groupId } = req.params;
-
     const group = await Group.findById(groupId);
-
     const imageUrl = group.imageUrl;
-
     if (!imageUrl) {
         return next();
     }
-
     const publicId = imageUrl.split('/').pop().split('.')[0];
-
     try {
         await cloudinary.uploader.destroy(publicId);
         next();
     } catch (error) {
         console.error(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }

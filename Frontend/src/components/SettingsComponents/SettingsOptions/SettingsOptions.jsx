@@ -7,7 +7,7 @@ export default function SettingsOptions({ selectedOption, setSelectedOption }) {
     return (
         <motion.div
             className="settings-container"
-            initial={{ x: -40 }}
+            initial={{ x: +40 }}
             animate={{ x: 0 }}
             exit={{ x: -40 }}
         >

@@ -13,7 +13,13 @@ export default function Main() {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate(window.location.pathname);
+            const path = window.location.pathname
+            if (path == '/') {
+                navigate('/chat');
+            }
+            else {
+                navigate(path);
+            }
         } else {
             navigate('/home');
         }

@@ -8,7 +8,7 @@ export default function SettingBox({ selectedOption }) {
     return (
         <motion.div
             className="setting-box-container"
-            initial={{ x: -80 }}
+            initial={{ x: +80 }}
             animate={{ x: 0 }}
             exit={{ x: -80 }}
         >

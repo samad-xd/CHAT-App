@@ -1,0 +1,35 @@
+.submitter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+}
+
+.loading-ring {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-ring:after {
+    width: 72%;
+    height: 72%;
+    content: " ";
+    display: block;
+    /* margin: 8px; */
+    border-radius: 50%;
+    border: 6px solid black;
+    border-color: black transparent black transparent;
+    animation: loading-ring 1.2s linear infinite;
+}
+
+@keyframes loading-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

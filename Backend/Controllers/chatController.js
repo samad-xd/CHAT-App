@@ -19,7 +19,7 @@ export async function getAllFriends(req, res) {
         res.status(200).json({ friends: user.friends, message: 'Friends fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -37,7 +37,7 @@ export async function getChat(req, res) {
         res.status(200).json({ chat, message: 'Chat data fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -48,7 +48,7 @@ export async function getMessages(req, res) {
         res.status(200).json({ messages, message: 'Messages fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -59,7 +59,7 @@ export async function addMessage(req, res) {
         res.status(200).json({ message: 'Message added successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -89,6 +89,6 @@ export async function messageAI(req, res) {
         res.status(200).json({ message: newMessage });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }

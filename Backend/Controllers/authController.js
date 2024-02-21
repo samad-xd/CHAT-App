@@ -13,7 +13,7 @@ export async function signup(req, res) {
     try {
         const user = await User.findOne({ email });
         if (user) {
-            throw new Error({ message: 'User already exists' });
+            throw new Error('User already exists');
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -26,7 +26,7 @@ export async function signup(req, res) {
         res.status(200).json({ message: 'User created successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -35,17 +35,17 @@ export async function login(req, res) {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            throw new Error({ message: 'User does not exists' });
+            throw new Error('User does not exists');
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            throw new Error({ message: 'Incorrect password' });
+            throw new Error('Incorrect password');
         }
         const token = generateToken(user._id);
         const AI = await User.findById(AI_id);
         res.status(200).json({ token, user, AI, message: 'User logged in successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json(error.message);
     }
 }
 
@@ -64,7 +64,7 @@ export async function isTokenValid(req, res) {
         res.status(200).json({ user, AI, isLoggedIn: true });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 
 }

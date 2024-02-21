@@ -82,6 +82,8 @@
 .edit-password-buttons {
     display: flex;
     gap: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .delete:hover {

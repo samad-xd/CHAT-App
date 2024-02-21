@@ -7,7 +7,7 @@ export async function addNotification(req, res) {
         res.status(200).json({ notification: result, message: 'notification added successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -20,7 +20,7 @@ export async function readNotification(req, res) {
         res.status(200).json({ notification, message: 'notification read successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -30,7 +30,7 @@ export async function getAllNotifications(req, res) {
         res.status(200).json({ notifications, message: 'notifications fetched successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -41,7 +41,7 @@ export async function deleteGroupNotifications(req, res, next) {
         next();
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
 
@@ -53,6 +53,6 @@ export async function deleteUserNotifications(req, res, next) {
         next();
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error.message);
     }
 }
