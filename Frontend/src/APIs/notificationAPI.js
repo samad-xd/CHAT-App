@@ -1,6 +1,9 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 
-const API = axios.create({baseURL: 'http://localhost:3000/notification'});
+dotenv.config();
+
+const API = axios.create({ baseURL: `${process.env.BACKEND_URL}/chat` });
 
 export async function sendNotification(notification) {
     API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
