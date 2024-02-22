@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: `${import.meta.env.VITE_BACKEND_URL}/chat` });
+const API = axios.create({ baseURL: `${import.meta.env.VITE_BACKEND_URL}/notification` });
 
 export async function sendNotification(notification) {
     API.defaults.headers.common['Authorization'] = localStorage.getItem('token');

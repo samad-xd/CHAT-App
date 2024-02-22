@@ -1,17 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { verifyTokenData } from "../APIs/authAPI";
 
 const token = localStorage.getItem('token');
 
-async function verifyToken() {
-    return await verifyTokenData();
-}
-
-const initialAuthState = await verifyToken();
-
 export const authSlice = createSlice({
     name: 'auth',
-    initialState: initialAuthState,
+    initialState: {
+        user: null,
+        AI: null,
+        isLoggedIn: false
+    },
     reducers: {
         updateLoginState: (state, action) => {
             state.isLoggedIn = action.payload.isLoggedIn;
