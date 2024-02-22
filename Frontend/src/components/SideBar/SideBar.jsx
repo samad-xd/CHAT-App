@@ -1,6 +1,6 @@
 import './SideBar.css'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import SwitchLeftIcon from '@mui/icons-material/SwitchLeft';
@@ -23,7 +23,13 @@ export default function SideBar() {
 
     const [open, setOpen] = useState(true);
 
-    const [activeElement, setActiveElement] = useState(window.location.pathname);
+    const path = window.location.pathname;
+
+    const [activeElement, setActiveElement] = useState('');
+
+    useEffect(() => {
+        setActiveElement(path);
+    }, [path])
 
     function handleOpen() {
         setOpen(!open);

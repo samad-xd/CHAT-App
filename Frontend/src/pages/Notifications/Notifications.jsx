@@ -4,10 +4,15 @@ import { motion } from 'framer-motion';
 import './Notifications.css';
 import { getAllNotifications, readNotification } from '../../APIs/notificationAPI';
 import Loading from '../../components/LoadingComponents/Loading/Loading';
+import { useDispatch } from 'react-redux';
+import { changeSelectedChat } from '../../store/chat';
+import { changeSelectedGroup } from '../../store/group';
 
 export default function Notifications() {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const [notifications, setNotifications] = useState([]);
 
@@ -16,8 +21,8 @@ export default function Notifications() {
     useEffect(() => {
         async function fetchNotifications() {
             setIsLoading(true);
-            const responseData = await getAllNotifications();
-            setNotifications(responseData.notifications);
+            const response = await getAllNotifications();
+            setNotifications(response.data.notifications);
             setIsLoading(false);
         }
         fetchNotifications();
@@ -29,10 +34,12 @@ export default function Notifications() {
             if (notification.action === 'sent') {
                 navigate('/friends');
             } else if (notification.action === 'accepted') {
+                dispatch(changeSelectedChat(notification.from));
                 navigate('/chat');
             }
         } else if (notification.type === 'groups') {
-            navigate('/groups')
+            dispatch(changeSelectedGroup(notification.group));
+            navigate('/groups');
         }
     }
 

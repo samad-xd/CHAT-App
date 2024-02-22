@@ -18,8 +18,7 @@ export async function getAllFriends(req, res) {
         const user = await User.findById(req.user._id).populate('friends');
         res.status(200).json({ friends: user.friends, message: 'Friends fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -36,8 +35,7 @@ export async function getChat(req, res) {
         }
         res.status(200).json({ chat, message: 'Chat data fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -47,8 +45,7 @@ export async function getMessages(req, res) {
         const messages = await Message.find({ chatId });
         res.status(200).json({ messages, message: 'Messages fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -58,8 +55,7 @@ export async function addMessage(req, res) {
         await Message.create(message);
         res.status(200).json({ message: 'Message added successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -88,7 +84,6 @@ export async function messageAI(req, res) {
         });
         res.status(200).json({ message: newMessage });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }

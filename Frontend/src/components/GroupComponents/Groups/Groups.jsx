@@ -30,8 +30,8 @@ export default function Groups() {
     useEffect(() => {
         async function fetchGroups() {
             setIsLoading(true);
-            const data = await getAllGroupsData();
-            dispatch(changeGroups(data.groups));
+            const response = await getAllGroupsData();
+            dispatch(changeGroups(response.data.groups));
             setIsLoading(false);
         }
         fetchGroups();

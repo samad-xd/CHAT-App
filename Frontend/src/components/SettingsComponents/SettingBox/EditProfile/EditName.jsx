@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateName } from "../../../../APIs/usersAPI";
 import { changeUser } from "../../../../store/auth";
 import Submitting from "../../../LoadingComponents/Submitting/Submitting";
+import { makeToast } from "../../../../utils/toast";
 
 export default function EditName() {
 
@@ -18,8 +19,9 @@ export default function EditName() {
         const name = nameRef.current.value;
         if (name === user.name) return;
         setIsSubmitting(true);
-        const responseData = await updateName({ name });
-        dispatch(changeUser(responseData.user));
+        const response = await updateName({ name });
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
     }
 

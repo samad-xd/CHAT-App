@@ -6,8 +6,7 @@ export async function addNotification(req, res) {
         const result = await Notification.create(notification);
         res.status(200).json({ notification: result, message: 'notification added successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -19,8 +18,7 @@ export async function readNotification(req, res) {
         await notification.save();
         res.status(200).json({ notification, message: 'notification read successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -29,8 +27,7 @@ export async function getAllNotifications(req, res) {
         const notifications = await Notification.find({ to: req.user._id }).populate(['from', 'group']).sort({ createdAt: -1 });
         res.status(200).json({ notifications, message: 'notifications fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -40,8 +37,7 @@ export async function deleteGroupNotifications(req, res, next) {
         await Notification.deleteMany({ group: groupId });
         next();
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -52,7 +48,6 @@ export async function deleteUserNotifications(req, res, next) {
         await Notification.deleteMany({ from: userId });
         next();
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }

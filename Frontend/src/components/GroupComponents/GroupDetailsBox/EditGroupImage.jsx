@@ -3,6 +3,7 @@ import { updateGroupImage } from "../../../APIs/GroupsAPI";
 import { addGroup, changeSelectedGroup, removeGroup } from "../../../store/group";
 import { useState } from "react";
 import Submitting from "../../LoadingComponents/Submitting/Submitting";
+import { makeToast } from "../../../utils/toast";
 
 export default function EditGroupImage() {
 
@@ -17,10 +18,11 @@ export default function EditGroupImage() {
         const image = event.target.files[0];
         const formData = new FormData();
         formData.append('image', image);
-        const responseData = await updateGroupImage(group._id, formData);
-        dispatch(changeSelectedGroup(responseData.group));
+        const response = await updateGroupImage(group._id, formData);
+        if(!makeToast(response)) return;
+        dispatch(changeSelectedGroup(response.data.group));
         dispatch(removeGroup(group));
-        dispatch(addGroup(responseData.group));
+        dispatch(addGroup(response.data.group));
         setIsSubmitting(false);
     }
 

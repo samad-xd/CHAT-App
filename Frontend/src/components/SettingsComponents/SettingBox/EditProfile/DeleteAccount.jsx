@@ -6,6 +6,7 @@ import { resetGroupState } from '../../../../store/group';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Submitting from '../../../LoadingComponents/Submitting/Submitting';
+import { makeToast } from '../../../../utils/toast';
 
 export default function DeleteAccount() {
 
@@ -17,8 +18,8 @@ export default function DeleteAccount() {
 
     async function handleDeleteAccount() {
         setIsSubmitting(true);
-        const responseData = await deleteAccount();
-        console.log(responseData);
+        const response = await deleteAccount();
+        if(!makeToast(response)) return;
         dispatch(updateLogoutState());
         dispatch(resetChatState());
         dispatch(resetGroupState());

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './NewGroupForm.css';
-import { getAllFriendsData } from '../../../../APIs/chatAPI';
 import { createGroup } from '../../../../APIs/GroupsAPI';
 import Dialog from '../../../Dialog/Dialog';
 import { addGroup } from '../../../../store/group';
 import { sendNotification } from '../../../../APIs/notificationAPI';
+import { makeToast } from '../../../../utils/toast';
 
 export default function NewGroupForm({ showDialog, setShowDialog }) {
 
@@ -13,17 +13,9 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
 
     const user = useSelector(state => state.authReducer.user);
 
-    const [friends, setFriends] = useState([]);
+    const friends = useSelector(state => state.chatReducer.chats);
 
     const [selectedFriends, setSelectedFriends] = useState([user._id]);
-
-    useEffect(() => {
-        async function fetchFriends() {
-            const data = await getAllFriendsData();
-            setFriends(data.friends);
-        }
-        fetchFriends();
-    }, []);
 
     function handleFriendSelection(event) {
         if (event.target.checked) {
@@ -39,8 +31,9 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
         const formData = new FormData(event.target);
         let groupData = Object.fromEntries(formData);
         groupData = { ...groupData, friends: selectedFriends };
-        const responseData = await createGroup(groupData);
-        dispatch(addGroup(responseData.group));
+        const response = await createGroup(groupData);
+        if(!makeToast(response)) return;
+        dispatch(addGroup(response.data.group));
         event.target.reset();
         setShowDialog(false);
         groupData.friends.forEach(async (friendId) => {
@@ -49,7 +42,7 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
                     type: 'groups',
                     from: user._id,
                     to: friendId,
-                    group: responseData.group._id
+                    group: response.data.group._id
                 }
                 await sendNotification(notification);
             }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Submitting from '../../LoadingComponents/Submitting/Submitting';
 import { removeFromGroup } from '../../../APIs/GroupsAPI';
 import { useSelector } from 'react-redux';
+import { makeToast } from '../../../utils/toast';
 
 export default function RemoveGroupMember({ member, members, setFriends, setMembers }) {
 
@@ -12,7 +13,8 @@ export default function RemoveGroupMember({ member, members, setFriends, setMemb
 
     async function handelUserRemove(userId) {
         setIsSubmitting(true);
-        await removeFromGroup(group._id, userId);
+        const response = await removeFromGroup(group._id, userId);
+        if(!makeToast(response)) return;
         const friend = members.find(member => member._id === userId);
         setMembers(members => members.filter(member => member._id !== userId));
         setFriends(friends => [...friends, friend]);

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { changeUser } from "../../../../store/auth";
 import { updatePassword } from "../../../../APIs/usersAPI";
 import Submitting from "../../../LoadingComponents/Submitting/Submitting";
+import { makeToast } from "../../../../utils/toast";
 
 export default function EditPassword() {
 
@@ -19,8 +20,9 @@ export default function EditPassword() {
         setIsSubmitting(true);
         const password = passwordRef.current.value;
         const confirmPassword = confirmPasswordRef.current.value;
-        const responseData = await updatePassword({ password, confirmPassword });
-        dispatch(changeUser(responseData.user));
+        const response = await updatePassword({ password, confirmPassword });
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
         setShowChangePasssword(false);
     }

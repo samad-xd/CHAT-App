@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { resetChatState } from '../../../store/chat';
 import { resetGroupState } from '../../../store/group';
+import { toast } from 'sonner';
 
 export default function SidebarLogout({ open }) {
 
@@ -54,6 +55,10 @@ export default function SidebarLogout({ open }) {
     const navigate = useNavigate();
 
     function handleLogout() {
+        const toastId = toast.success('Logout success.');
+        setTimeout(() => {
+            toast.dismiss(toastId);
+        }, 2000);
         dispatch(updateLogoutState());
         dispatch(resetChatState());
         dispatch(resetGroupState());

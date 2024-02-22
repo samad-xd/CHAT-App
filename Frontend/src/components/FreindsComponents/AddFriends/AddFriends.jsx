@@ -1,22 +1,38 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-
+import { toast } from 'sonner';
 import FoundFriend from './FoundFriend/FoundFriend';
 import './AddFriends.css';
 
 import SearchIcon from '@mui/icons-material/Search';
+import ReplayIcon from '@mui/icons-material/Replay';
 import { findFriends } from '../../../APIs/usersAPI';
+import { useSelector } from 'react-redux';
 
 export default function AddFriends() {
 
     const searchRef = useRef('');
 
+    const user = useSelector(state => state.authReducer.user);
+
     const [foundFriends, setFoundFriends] = useState([]);
 
-    async function handleSearch() {
+    function handleSearch() {
         const name = searchRef.current.value;
-        const data = await findFriends(name);
-        setFoundFriends(data.result);
+        if (name === '') return;
+        toast.promise(async () => {
+            const response = await findFriends(name);
+            setFoundFriends(response.data.result);
+            return response.data.result.length;
+        }, {
+            loading: 'Fetching...',
+            success: (length) => length === 0 ? 'No one found with given name' : 'Fetched successfully'
+        });
+    }
+
+    function handleReset() {
+        searchRef.current.value = '';
+        setFoundFriends([]);
     }
 
     return (
@@ -31,14 +47,15 @@ export default function AddFriends() {
                 <hr />
                 <div className='search-friend'>
                     <input ref={searchRef} type="text" placeholder='Search New Friend' />
-                    <div className="search-icon" onClick={handleSearch}>
-                        <SearchIcon />
-                    </div>
+                    <SearchIcon className="search-icon" onClick={handleSearch} />
+                    <ReplayIcon className='search-icon-2' onClick={handleReset} />
                 </div>
-                <div className="found-friends">                                 
-                    {foundFriends.map((friend) => (
-                        <FoundFriend key={friend._id} friend={friend} status='found' />
-                    ))}
+                <div className="found-friends">
+                    {foundFriends.map((friend) => {
+                        if (friend._id !== user._id) {
+                            return (<FoundFriend key={friend._id} friend={friend} status='found' />);
+                        }
+                    })}
                 </div>
             </div>
         </motion.div>

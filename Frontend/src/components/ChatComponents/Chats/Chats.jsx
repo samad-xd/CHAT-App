@@ -35,8 +35,8 @@ export default function Chats() {
     useEffect(() => {
         async function fetchFriends() {
             setIsLoading(true);
-            const data = await getAllFriendsData();
-            dispatch(changeChats(data.friends));
+            const response = await getAllFriendsData();
+            dispatch(changeChats(response.data.friends));
             setIsLoading(false);
         }
         fetchFriends();

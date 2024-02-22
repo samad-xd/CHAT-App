@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import './FriendRequests.css';
 import { getAllFriendRequests } from '../../../APIs/usersAPI';
 import FoundFriend from '../AddFriends/FoundFriend/FoundFriend';
+import Loading from '../../LoadingComponents/Loading/Loading';
 
 export default function FriendRequests() {
 
@@ -13,17 +14,21 @@ export default function FriendRequests() {
     const [selectedRequest, setSelectedRequest] = useState('pending');
     const [requests, setRequests] = useState({ sentRequests: [], pendingRequests: [] });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     function handleSelectedRequest(requestType) {
         setSelectedRequest(requestType);
     }
 
     useEffect(() => {
         async function getFriendRequests() {
-            const data = await getAllFriendRequests();
-            setRequests(data);
+            setIsLoading(true);
+            const response = await getAllFriendRequests();
+            setRequests(response.data);
+            setIsLoading(false);
         }
         getFriendRequests();
-    }, [user]);
+    }, []);
 
     return (
         <motion.div
@@ -53,14 +58,17 @@ export default function FriendRequests() {
                     <hr className={selectedRequest === 'pending' ? '' : 'notSelected'} />
                     <hr className={selectedRequest === 'sent' ? '' : 'notSelected'} />
                 </div>
-                <div className="requests">
-                    {selectedRequest === 'pending' && requests.pendingRequests.map(request =>
-                        <FoundFriend key={request._id} friend={request} />
-                    )}
-                    {selectedRequest === 'sent' && requests.sentRequests.map(request =>
-                        <FoundFriend key={request._id} friend={request} />
-                    )}
-                </div>
+                {isLoading ?
+                    <Loading /> :
+                    <div className="requests">
+                        {selectedRequest === 'pending' && requests.pendingRequests.map(request =>
+                            <FoundFriend key={request._id} friend={request} />
+                        )}
+                        {selectedRequest === 'sent' && requests.sentRequests.map(request =>
+                            <FoundFriend key={request._id} friend={request} />
+                        )}
+                    </div>
+                }
             </div>
         </motion.div>
     );

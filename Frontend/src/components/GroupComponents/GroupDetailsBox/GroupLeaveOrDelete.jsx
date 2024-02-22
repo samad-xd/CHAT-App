@@ -3,6 +3,7 @@ import { deleteGroup, removeFromGroup } from "../../../APIs/GroupsAPI";
 import { changeSelectedGroup, removeGroup } from "../../../store/group";
 import { useState } from "react";
 import Submitting from "../../LoadingComponents/Submitting/Submitting";
+import { toast } from "sonner";
 
 export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
 
@@ -17,6 +18,9 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
     async function handleLeaveGroup() {
         setIsSubmitting(true);
         await removeFromGroup(group._id, user._id);
+        setTimeout(() => {
+            toast.success('Group left successfully');
+        }, 2000);
         setShowGroupDetails(false);
         dispatch(changeSelectedGroup(null));
         dispatch(removeGroup(group));
@@ -26,6 +30,9 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
     async function handleDeleteGroup() {
         setIsSubmitting(true);
         await deleteGroup(group._id);
+        setTimeout(() => {
+            toast.success('Group deleted successfully');
+        }, 2000);
         setShowGroupDetails(false);
         dispatch(changeSelectedGroup(null));
         dispatch(removeGroup(group));

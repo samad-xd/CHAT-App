@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './BlockedUsers.css';
 import { getBlockedUsers, unblockUser } from '../../../../APIs/usersAPI';
 import Loading from '../../../LoadingComponents/Loading/Loading';
+import { makeToast } from '../../../../utils/toast';
 
 export default function BlockedUsers() {
 
@@ -12,15 +13,16 @@ export default function BlockedUsers() {
     useEffect(() => {
         async function fetchBlockedUsers() {
             setIsLoading(true);
-            const responseData = await getBlockedUsers();
-            setBlockedUsers(responseData.blockedUsers);
+            const response = await getBlockedUsers();
+            setBlockedUsers(response.data.blockedUsers);
             setIsLoading(false);
         }
         fetchBlockedUsers();
     }, []);
 
     async function handleUnblock(userId) {
-        await unblockUser(userId);
+        const response = await unblockUser(userId);
+        if(!makeToast(response)) return;
         const users = blockedUsers.filter(user => user._id != userId);
         setBlockedUsers(users);
     }
@@ -34,6 +36,7 @@ export default function BlockedUsers() {
                 <div className='blocked-users'>
                     {blockedUsers.map(user =>
                         <div key={user._id} className="blocked-user">
+                            {user.imageUrl ? <img src={user.imageUrl} alt="Profile Picture" /> : <img src="profile-picture.png" alt="Profile Picture" /> }
                             <div className='blocked-user-name'>{user.name}</div>
                             <div className="unblock-button" onClick={() => handleUnblock(user._id)}>Unblock</div>
                         </div>

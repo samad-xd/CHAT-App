@@ -9,8 +9,7 @@ export async function createGroup(req, res) {
         const group = await Group.create({ name: groupName, members: friends, imageUrl });
         res.status(200).json({ group, message: 'Group created successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -20,8 +19,7 @@ export async function deleteGroup(req, res) {
         await Group.findByIdAndDelete(groupId);
         res.status(200).json({ message: 'Group deleted successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -31,8 +29,7 @@ export async function getAllGroups(req, res) {
         const groups = await Group.find({ members: { $in: [userId] } });
         res.status(200).json({ groups, message: 'Groups fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -42,8 +39,7 @@ export async function getGroupMembers(req, res) {
         const group = await Group.findById(groupId).populate('members');
         res.status(200).json({ members: group.members, message: 'Groups fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -57,8 +53,7 @@ export async function getMembersNotInGroup(req, res) {
         });
         res.status(200).json({ friends, message: 'Groups fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -68,8 +63,7 @@ export async function getGroupMessages(req, res) {
         const groupMessages = await GroupMessage.find({ groupId })
         res.status(200).json({ groupMessages, message: 'Group messages fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -79,8 +73,7 @@ export async function addGroupMessage(req, res) {
         await GroupMessage.create(groupMessage);
         res.status(200).json({ message: 'Group message added successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -90,10 +83,9 @@ export async function addToGroup(req, res) {
         const group = await Group.findById(groupId);
         group.members.push(userId);
         await group.save();
-        res.status(200).json({ message: 'User added Group successfully' });
+        res.status(200).json({ message: 'Member added to group successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -107,10 +99,9 @@ export async function removeFromGroup(req, res) {
         if(members.length === 0) {
             await Group.findByIdAndDelete(groupId);
         }
-        res.status(200).json({ message: 'User removed from Group successfully' });
+        res.status(200).json({ message: 'Member removed from Group successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -123,8 +114,7 @@ export async function updateGroupName(req, res) {
         await group.save();
         res.status(200).json({ group, message: 'Group name updated successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -137,7 +127,6 @@ export async function updateGroupImage(req, res) {
         await group.save();
         res.status(200).json({ group, message: 'Group image updated successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }

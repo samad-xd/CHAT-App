@@ -3,6 +3,7 @@ import { updateProfilePicture } from "../../../../APIs/usersAPI";
 import { changeUser } from "../../../../store/auth";
 import { useState } from "react";
 import Submitting from "../../../LoadingComponents/Submitting/Submitting";
+import { makeToast } from "../../../../utils/toast";
 
 export default function EditImage() {
 
@@ -17,8 +18,9 @@ export default function EditImage() {
         const image = event.target.files[0];
         const formData = new FormData();
         formData.append('image', image);
-        const responseData = await updateProfilePicture(formData);
-        dispatch(changeUser(responseData.user));
+        const response = await updateProfilePicture(formData);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
     }
 

@@ -5,10 +5,15 @@ import { changeUser } from '../../../../store/auth';
 
 import './FoundFriend.css';
 import { sendNotification } from '../../../../APIs/notificationAPI';
+import { useState } from 'react';
+import Submitting from '../../../LoadingComponents/Submitting/Submitting';
+import { makeToast } from '../../../../utils/toast';
 
 export default function FoundFriend({ friend }) {
 
     const user = useSelector((state) => state.authReducer.user);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const isRequestSent = user.sentRequests.some(id => id === friend._id);
 
@@ -34,37 +39,49 @@ export default function FoundFriend({ friend }) {
     const dispatch = useDispatch();
 
     async function handleSendRequest() {
-        const data = await sendFriendRequest(friend._id);
-        dispatch(changeUser(data.user));
+        setIsSubmitting(true);
+        const response = await sendFriendRequest(friend._id);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
         const notification = {
             type: 'friends',
             from: user._id,
             to: friend._id,
             action: 'sent'
         }
-        const response = await sendNotification(notification);
+        await sendNotification(notification);
     }
 
     async function handleAcceptRequest() {
-        const data = await acceptFriendRequest(friend._id);
-        dispatch(changeUser(data.user));
+        setIsSubmitting(true);
+        const response = await acceptFriendRequest(friend._id);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
         const notification = {
             type: 'friends',
             from: user._id,
             to: friend._id,
             action: 'accepted'
         }
-        const response = await sendNotification(notification);
+        await sendNotification(notification);
     }
 
     async function handleRejectRequest() {
-        const data = await rejectFriendRequest(friend._id);
-        dispatch(changeUser(data.user));
+        setIsSubmitting(true);
+        const response = await rejectFriendRequest(friend._id);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
     }
 
     async function handleCancelRequest() {
-        const data = await cancelFriendRequest(friend._id);
-        dispatch(changeUser(data.user));
+        setIsSubmitting(true);
+        const response = await cancelFriendRequest(friend._id);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
     }
 
     return (
@@ -73,7 +90,7 @@ export default function FoundFriend({ friend }) {
                 {friend.imageUrl ? <img src={friend.imageUrl} alt="profile-picture" /> : <img src="profile-picture.png" alt="profile-picture" />}
                 <div className="found-friend-name">{friend.name}</div>
             </div>
-            {buttonContent}
+            {isSubmitting ? <Submitting /> : buttonContent}
         </div>
     );
 }

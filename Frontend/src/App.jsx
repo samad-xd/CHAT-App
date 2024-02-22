@@ -1,5 +1,5 @@
 import './App.css'
-
+import { Toaster } from 'sonner';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Chat from './pages/Chat/Chat';
 import Friends from './pages/Friends/Friends';
@@ -60,7 +60,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <Toaster richColors position="top-center" />
+    </>
   );
 }
 

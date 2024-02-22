@@ -7,7 +7,7 @@ export async function findFriends(req, res) {
         const result = await User.find({ name });
         res.status(200).json({ result });
     } catch (error) {
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -16,8 +16,7 @@ export async function getAllFriendRequests(req, res) {
         const user = await User.findById(req.user._id).populate(['pendingRequests', 'sentRequests']);
         res.status(200).json({ sentRequests: user.sentRequests, pendingRequests: user.pendingRequests });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -30,10 +29,9 @@ export async function addFriendRequest(req, res) {
         user.sentRequests.push(friend._id);
         await user.save();
         await friend.save();
-        res.status(200).json({ user, message: 'friend request sent' });
+        res.status(200).json({ user, message: 'Friend request sent' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -50,10 +48,9 @@ export async function acceptFriendRequest(req, res) {
         friend.sentRequests = sentRequests;
         await user.save();
         await friend.save();
-        res.status(200).json({ user, message: 'friend request accepted' });
+        res.status(200).json({ user, message: 'Friend request accepted' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -68,10 +65,9 @@ export async function rejectFriendRequest(req, res) {
         friend.sentRequests = sentRequests;
         await user.save();
         await friend.save();
-        res.status(200).json({ user, message: 'friend request rejected' });
+        res.status(200).json({ user, message: 'Friend request rejected' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -86,10 +82,9 @@ export async function cancelFriendRequest(req, res) {
         user.sentRequests = sentRequests;
         await user.save();
         await friend.save();
-        res.status(200).json({ user, message: 'friend request cancelled' });
+        res.status(200).json({ user, message: 'Friend request cancelled' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -105,10 +100,9 @@ export async function removeFriend(req, res) {
         user.friends = friends;
         await user.save();
         await friend.save();
-        res.status(200).json({ user, message: 'friend removed successfully' });
+        res.status(200).json({ user, message: 'Friend removed successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -116,10 +110,9 @@ export async function getUserProfile(req, res) {
     const userId = req.params.userId;
     try {
         const user = await User.findById(userId).populate('friends');
-        res.status(200).json({ user, message: 'user profile fetched successfully' });
+        res.status(200).json({ user, message: 'User profile fetched successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -135,10 +128,9 @@ export async function blockUser(req, res) {
         const friends = friend.friends.filter(friend => friend.toString() !== user._id.toString());
         friend.friends = friends;
         await friend.save();
-        res.status(200).json({ user, message: 'user blocked successfully' });
+        res.status(200).json({ user, message: 'User blocked successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -153,20 +145,18 @@ export async function unblockUser(req, res) {
         const friend = await User.findById(userId);
         friend.friends.push(user._id);
         await friend.save();
-        res.status(200).json({ user, message: 'user unblocked successfully' });
+        res.status(200).json({ user, message: 'User unblocked successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
 export async function getBlockedUsers(req, res) {
     try {
         const user = await User.findById(req.user._id).populate('blocked');
-        res.status(200).json({ blockedUsers: user.blocked, message: 'fetched all blocked users successfully' });
+        res.status(200).json({ blockedUsers: user.blocked, message: 'Fetched all blocked users successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -178,8 +168,7 @@ export async function updateName(req, res) {
         await user.save();
         res.status(200).json({ user, message: 'Name changed successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -193,21 +182,19 @@ export async function updatePassword(req, res) {
         await user.save();
         res.status(200).json({ user, message: 'Password changed successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
 export async function updateProfilePicture(req, res) {
-    const imageUrl= req.file.url;
+    const imageUrl = req.file.url;
     try {
         const user = req.user;
         user.imageUrl = imageUrl;
         await user.save();
         res.status(200).json({ user, message: 'Profile Picture changed successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }
 
@@ -216,7 +203,6 @@ export async function deleteAcount(req, res) {
         const user = await User.findByIdAndDelete(req.user._id);
         res.status(200).json({ message: 'Account deleted successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.message);
+        res.status(500).json({ message: 'Server is having some issues.' });
     }
 }

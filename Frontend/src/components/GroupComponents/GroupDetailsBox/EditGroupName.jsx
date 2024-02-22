@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateGroupName } from "../../../APIs/GroupsAPI";
 import { addGroup, changeSelectedGroup, removeGroup } from "../../../store/group";
 import Submitting from "../../LoadingComponents/Submitting/Submitting";
+import { makeToast } from "../../../utils/toast";
 
 export default function EditGroupName() {
 
@@ -18,10 +19,11 @@ export default function EditGroupName() {
         const name = nameRef.current.value;
         if (name === group.name) return;
         setIsSubmitting(true);
-        const responseData = await updateGroupName(group._id, { name });
-        dispatch(changeSelectedGroup(responseData.group));
+        const response = await updateGroupName(group._id, { name });
+        if(!makeToast(response)) return;
+        dispatch(changeSelectedGroup(response.data.group));
         dispatch(removeGroup(group));
-        dispatch(addGroup(responseData.group));
+        dispatch(addGroup(response.data.group));
         setIsSubmitting(false);
     }
 

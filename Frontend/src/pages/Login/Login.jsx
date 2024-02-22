@@ -1,9 +1,9 @@
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
 import LoginForm from '../../components/Forms/LoginForm';
 import { login } from '../../APIs/authAPI';
 import { updateLoginState } from '../../store/auth';
+import { makeToast } from '../../utils/toast';
 
 export default function Login() {
 
@@ -21,9 +21,10 @@ export default function Login() {
         try {
             const formData = new FormData(event.target);
             const loginData = Object.fromEntries(formData);
-            const responseData = await login(loginData);
-            localStorage.setItem('token', responseData.token);
-            dispatch(updateLoginState({ user: responseData.user, AI: responseData.AI, isLoggedIn: true }));
+            const response = await login(loginData);
+            if(!makeToast(response)) return;
+            localStorage.setItem('token', response.data.token);
+            dispatch(updateLoginState({ user: response.data.user, AI: response.data.AI, isLoggedIn: true }));
             navigate('/chat');
         } catch (error) {
             console.log(error);

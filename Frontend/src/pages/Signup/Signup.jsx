@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { signup } from '../../APIs/authAPI';
 import SignupForm from '../../components/Forms/SignupForm';
 import { useSelector } from 'react-redux';
+import { makeToast } from '../../utils/toast';
 
 export default function Signup() {
 
@@ -19,7 +20,8 @@ export default function Signup() {
         try {
             const formData = new FormData(event.target);
             const signupData = Object.fromEntries(formData);
-            const responseData = await signup(signupData);
+            const response = await signup(signupData);
+            if(!makeToast(response)) return;
             navigate('/login');
         } catch (error) {
             console.log(error);

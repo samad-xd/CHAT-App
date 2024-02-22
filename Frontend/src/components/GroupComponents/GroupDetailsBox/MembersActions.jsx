@@ -24,12 +24,12 @@ export default function MembersActions() {
     useEffect(() => {
         async function fetchMembers() {
             setIsLoading(true);
-            const responseData = await fetchGroupMembers(group._id);
-            setMembers(responseData.members);
+            const response = await fetchGroupMembers(group._id);
+            setMembers(response.data.members);
         }
         async function fetchFriends() {
-            const responseData = await fetchMembersNotInGroup(group._id);
-            setFriends(responseData.friends);
+            const response = await fetchMembersNotInGroup(group._id);
+            setFriends(response.data.friends);
             setIsLoading(false);
         }
         fetchMembers();

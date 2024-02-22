@@ -21,8 +21,8 @@ export default function GroupChatbox({ setShowGroupDetails }) {
     useEffect(() => {
         async function fetchMessages() {
             setIsLoading(true);
-            const responseData = await fetchGroupMessages(group._id);
-            setMessages(responseData.groupMessages);
+            const response = await fetchGroupMessages(group._id);
+            setMessages(response.data.groupMessages);
             setIsLoading(false)
         }
         if (group) fetchMessages();

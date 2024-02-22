@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { blockUser } from '../../../../../APIs/usersAPI';
 import { changeUser } from '../../../../../store/auth';
 import { changeChats, changeSelectedChat } from '../../../../../store/chat';
+import { makeToast } from '../../../../../utils/toast';
 
 export default function ChatDetails({ showDetails, setShowDetails }) {
 
@@ -18,8 +19,8 @@ export default function ChatDetails({ showDetails, setShowDetails }) {
 
     async function handleBlock() {
         const response = await blockUser(friend._id);
-        console.log(response);
-        dispatch(changeUser(response.user));
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         const updatedFriends = friends.filter(user => user._id !== friend._id);
         dispatch(changeChats(updatedFriends));
         dispatch(changeSelectedChat(null));

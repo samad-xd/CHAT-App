@@ -26,8 +26,8 @@ export default function Chatbox() {
 
     useEffect(() => {
         async function getChat() {
-            const data = await fetchChatData(friend._id);
-            setChat(data.chat);
+            const response = await fetchChatData(friend._id);
+            setChat(response.data.chat);
         }
         if (friend) {
             setIsLoading(true);
@@ -37,8 +37,8 @@ export default function Chatbox() {
 
     useEffect(() => {
         async function getMessages() {
-            const data = await fetchMessages(chat._id);
-            setMessages(data.messages);
+            const response = await fetchMessages(chat._id);
+            setMessages(response.data.messages);
             setIsLoading(false);
         }
         if (chat) getMessages();
@@ -54,8 +54,8 @@ export default function Chatbox() {
         if (AI._id === friend._id) {
             const oldMessages = [...messages];
             setMessages([...messages, message]);
-            const responseData = await getAImesssage(message);
-            setMessages([...oldMessages, message, responseData.message]);
+            const response = await getAImesssage(message);
+            setMessages([...oldMessages, message, response.data.message]);
         }
         else {
             socket.emit('send-message', ({ message, receiverId: friend._id }));

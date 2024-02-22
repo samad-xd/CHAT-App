@@ -1,10 +1,12 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
+import profilePicture from '/profile-picture.png';
 import { useEffect, useState } from 'react';
 import { acceptFriendRequest, cancelFriendRequest, getUserProfile, rejectFriendRequest, removeFriend, sendFriendRequest } from '../../APIs/usersAPI';
 import { changeUser } from '../../store/auth';
 import { sendNotification } from '../../APIs/notificationAPI';
+import { makeToast } from '../../utils/toast';
 
 export default function Profile() {
 
@@ -20,8 +22,8 @@ export default function Profile() {
 
     useEffect(() => {
         async function getProfile() {
-            const responseData = await getUserProfile(userId);
-            setProfile(responseData.user);
+            const response = await getUserProfile(userId);
+            setProfile(response.data.user);
         }
         getProfile();
     }, [userId]);
@@ -59,41 +61,47 @@ export default function Profile() {
 
     async function handleFriendRemove() {
         const response = await removeFriend(userId);
-        dispatch(changeUser(response.user));
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
+        navigate('/chats');
     }
 
     async function handleSendRequest() {
-        const data = await sendFriendRequest(userId);
-        dispatch(changeUser(data.user));
+        const response = await sendFriendRequest(userId);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         const notification = {
             type: 'friends',
             from: user._id,
             to: profile._id,
             action: 'sent'
         }
-        const response = await sendNotification(notification);
+        await sendNotification(notification);
     }
 
     async function handleAcceptRequest() {
-        const data = await acceptFriendRequest(userId);
-        dispatch(changeUser(data.user));
+        const response = await acceptFriendRequest(userId);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
         const notification = {
             type: 'friends',
             from: user._id,
             to: profile._id,
             action: 'accepted'
         }
-        const response = await sendNotification(notification);
+        await sendNotification(notification);
     }
 
     async function handleRejectRequest() {
-        const data = await rejectFriendRequest(userId);
-        dispatch(changeUser(data.user));
+        const response = await rejectFriendRequest(userId);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
     }
 
     async function handleCancelRequest() {
-        const data = await cancelFriendRequest(userId);
-        dispatch(changeUser(data.user));
+        const response = await cancelFriendRequest(userId);
+        if(!makeToast(response)) return;
+        dispatch(changeUser(response.data.user));
     }
 
     return (
@@ -101,11 +109,11 @@ export default function Profile() {
             {profile &&
                 <div className="profile-container">
                     <div className='back-buttons'>
-                    <div className='back-button' onClick={() => navigate('/chat')}>Home</div>
+                        <div className='back-button' onClick={() => navigate('/chat')}>Home</div>
                         <div className='back-button' onClick={() => navigate(-1)}>Go Back</div>
                     </div>
                     <div className='profile-header'>
-                        <div className='image-border'>{profile.imageUrl ? <img src={profile.imageUrl} alt="Profile Picture" /> : <img src="profile-picture.png" alt="Profile Picture" />}</div>
+                        <div className='image-border'>{profile.imageUrl ? <img src={profile.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}</div>
                         <div className='profile-name'>{profile.name}</div>
                         {button}
                     </div>
@@ -114,7 +122,7 @@ export default function Profile() {
                         <div className="friends-cards">
                             {profile.friends.map(friend =>
                                 <Link to={`/profile/${friend._id}`} key={friend._id} className='friend-card'>
-                                    {friend.imageUrl ? <img src={friend.imageUrl} alt="Profile Picture" /> : <img src="profile-picture.png" alt="Profile Picture" />}
+                                    {friend.imageUrl ? <img src={friend.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}
                                     <div className='friend-profile-name'>{friend.name}</div>
                                 </Link>
                             )}
