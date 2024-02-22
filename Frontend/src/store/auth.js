@@ -3,7 +3,7 @@ import { verifyTokenData } from "../APIs/authAPI";
 
 const token = localStorage.getItem('token');
 
-const initialAuthState= await verifyTokenData(token);
+const initialAuthState = async() => await verifyTokenData();
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -26,6 +26,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const {updateLoginState, updateLogoutState, changeUser} = authSlice.actions;
+export const { updateLoginState, updateLogoutState, changeUser } = authSlice.actions;
 
 export default authSlice.reducer;
