@@ -3,7 +3,11 @@ import { verifyTokenData } from "../APIs/authAPI";
 
 const token = localStorage.getItem('token');
 
-const initialAuthState = async() => await verifyTokenData();
+async function verifyToken() {
+    return await verifyTokenData();
+}
+
+const initialAuthState = await verifyToken();
 
 export const authSlice = createSlice({
     name: 'auth',

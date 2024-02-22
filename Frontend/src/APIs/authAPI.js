@@ -1,9 +1,6 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const API = axios.create({ baseURL: process.env.BACKEND_URL });
+const API = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URL });
 
 export async function signup(signupData) {
     try {

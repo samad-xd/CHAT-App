@@ -8,7 +8,7 @@ import Chatbox from "../../components/ChatComponents/Chatbox/Chatbox";
 import './Chat.css';
 import { changeActiveUsers } from "../../store/chat";
 
-export const socket = io('http://localhost:3000');
+export const socket = io(import.meta.env.VITE_BACKEND_URL);
 
 export default function Chat() {
 
