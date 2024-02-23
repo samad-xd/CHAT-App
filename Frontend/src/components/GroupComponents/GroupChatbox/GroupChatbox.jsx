@@ -37,7 +37,8 @@ export default function GroupChatbox({ setShowGroupDetails }) {
             text
         }
         setMessages([...messages, message]);
-        socket.emit('send-group-message', { members: [...group.members], message });
+        const members = group.members.filter(memberId => memberId !== user._id);
+        socket.emit('send-group-message', { members, message });
         await sendGroupMessage(message);
     }
 
