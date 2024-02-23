@@ -1,6 +1,6 @@
 import './App.css'
 import { Toaster } from 'sonner';
-import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Chat from './pages/Chat/Chat';
 import Friends from './pages/Friends/Friends';
 import Notifications from './pages/Notifications/Notifications';
@@ -12,10 +12,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Main from './pages/Main/Main';
 import Group from './pages/Group/Group';
 import Profile from './pages/Profile/Profile';
-import { useEffect } from 'react';
-import { verifyTokenData } from './APIs/authAPI';
-import { useDispatch } from 'react-redux';
-import { updateLoginState } from './store/auth';
 
 const router = createBrowserRouter([
   {
@@ -63,16 +59,6 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    async function fetchInitialAuthData() {
-      const data = await verifyTokenData();
-      dispatch(updateLoginState(data));
-    }
-    fetchInitialAuthData();
-  }, [])
 
   return (
     <>

@@ -42,7 +42,6 @@ export async function verifyTokenData() {
     API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     try {
         const response = await API.get('/auth');
-        console.log(response);
         return response.data;
     } catch (error) {
         return {

@@ -13,8 +13,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import SidebarElement from './SidebarElement/SidebarElement';
 import SidebarLogout from './SidebarLogout/SidebarLogout';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 export default function SideBar() {
@@ -29,7 +29,7 @@ export default function SideBar() {
 
     useEffect(() => {
         setActiveElement(path);
-    }, [path])
+    }, [path]);
 
     function handleOpen() {
         setOpen(!open);

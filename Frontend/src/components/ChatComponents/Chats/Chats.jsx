@@ -16,8 +16,6 @@ export default function Chats() {
 
     const dispatch = useDispatch();
 
-    const user = useSelector(state => state.authReducer.user);
-
     const AI = useSelector(state => state.authReducer.AI);
 
     const selectedUser = useSelector(state => state.chatReducer.selectedChat);
@@ -40,7 +38,7 @@ export default function Chats() {
             setIsLoading(false);
         }
         fetchFriends();
-    }, [user]);
+    }, []);
 
     function handleSearch() {
         const name = searchRef.current.value;

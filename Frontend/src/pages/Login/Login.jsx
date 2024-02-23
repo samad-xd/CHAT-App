@@ -13,7 +13,7 @@ export default function Login() {
     const dispatch = useDispatch();
 
     if (isLoggedIn) {
-        return <Navigate to='/chat' />
+        return <Navigate to='/' />
     }
 
     async function handleSubmit(event) {
