@@ -58,9 +58,9 @@ export default function Chatbox() {
             setMessages([...oldMessages, message, response.data.message]);
         }
         else {
+            setMessages([...messages, message]);
             socket.emit('send-message', ({ message, receiverId: friend._id }));
             await sendMessage(message);
-            setMessages([...messages, message]);
         }
     }
 

@@ -69,7 +69,6 @@ function App() {
   useEffect(() => {
     async function fetchInitialAuthData() {
       const data = await verifyTokenData();
-      console.log(data);
       dispatch(updateLoginState(data));
     }
     fetchInitialAuthData();

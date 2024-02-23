@@ -36,9 +36,9 @@ export default function GroupChatbox({ setShowGroupDetails }) {
             groupId: group._id,
             text
         }
+        setMessages([...messages, message]);
         socket.emit('send-group-message', { members: [...group.members], message });
         await sendGroupMessage(message);
-        setMessages([...messages, message]);
     }
 
     useEffect(() => {

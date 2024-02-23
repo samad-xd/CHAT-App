@@ -51,11 +51,11 @@ export async function isTokenValid(req, res) {
         const token = req.headers.authorization;
         const decoded = verifyToken(token);
         if (!decoded) {
-            return res.status(200).json({ user: null, isLoggedIn: false });
+            return res.status(200).json({ user: null, AI: null, isLoggedIn: false });
         }
         const user = await User.findById(decoded.userId);
         if (!user) {
-            return res.status(200).json({ user: null, isLoggedIn: false });
+            return res.status(200).json({ user: null, AI: null, isLoggedIn: false });
         }
         const AI = await User.findById(AI_id);
         res.status(200).json({ user, AI, isLoggedIn: true });
