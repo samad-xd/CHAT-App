@@ -14,9 +14,6 @@ cloudinary.v2.config({
 });
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, process.env.MULTER_TEMP_STORAGE_PATH)
-    },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         cb(null, file.fieldname + '-' + uniqueSuffix)
@@ -37,6 +34,7 @@ export async function cloudinaryUpload(req, res, next) {
     };
     try {
         const uploadedImageData = await cloudinary.uploader.upload(imagePath, options);
+        
         req.file = uploadedImageData;
         next();
     } catch (error) {
