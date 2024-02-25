@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateGroupName } from "../../../APIs/GroupsAPI";
 import { addGroup, changeSelectedGroup, removeGroup } from "../../../store/group";
 import Submitting from "../../LoadingComponents/Submitting/Submitting";
-import { makeToast } from "../../../utils/toast";
+import { toast } from "sonner";
 
 export default function EditGroupName() {
 
@@ -20,10 +20,14 @@ export default function EditGroupName() {
         if (name === group.name) return;
         setIsSubmitting(true);
         const response = await updateGroupName(group._id, { name });
-        if(!makeToast(response)) return;
-        dispatch(changeSelectedGroup(response.data.group));
-        dispatch(removeGroup(group));
-        dispatch(addGroup(response.data.group));
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeSelectedGroup(response.data.group));
+            dispatch(removeGroup(group));
+            dispatch(addGroup(response.data.group));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
     }
 

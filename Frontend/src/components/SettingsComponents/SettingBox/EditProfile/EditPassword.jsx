@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { changeUser } from "../../../../store/auth";
 import { updatePassword } from "../../../../APIs/usersAPI";
 import Submitting from "../../../LoadingComponents/Submitting/Submitting";
-import { makeToast } from "../../../../utils/toast";
+import { toast } from "sonner";
 
 export default function EditPassword() {
 
@@ -20,11 +20,25 @@ export default function EditPassword() {
         setIsSubmitting(true);
         const password = passwordRef.current.value;
         const confirmPassword = confirmPasswordRef.current.value;
+        if(password !== confirmPassword) {
+            toast.error('Passwords do not match.', { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        if(password.length < 8) {
+            toast.error('Passwords requires atleast 8 characters.', { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
         const response = await updatePassword({ password, confirmPassword });
-        if(!makeToast(response)) return;
-        dispatch(changeUser(response.data.user));
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeUser(response.data.user));
+            setShowChangePasssword(false);
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
-        setShowChangePasssword(false);
     }
 
     return (

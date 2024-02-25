@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Submitting from '../../LoadingComponents/Submitting/Submitting';
 import { removeFromGroup } from '../../../APIs/GroupsAPI';
 import { useSelector } from 'react-redux';
-import { makeToast } from '../../../utils/toast';
+import { toast } from 'sonner';
 
 export default function RemoveGroupMember({ member, members, setFriends, setMembers }) {
 
@@ -14,10 +14,14 @@ export default function RemoveGroupMember({ member, members, setFriends, setMemb
     async function handelUserRemove(userId) {
         setIsSubmitting(true);
         const response = await removeFromGroup(group._id, userId);
-        if(!makeToast(response)) return;
-        const friend = members.find(member => member._id === userId);
-        setMembers(members => members.filter(member => member._id !== userId));
-        setFriends(friends => [...friends, friend]);
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            const friend = members.find(member => member._id === userId);
+            setMembers(members => members.filter(member => member._id !== userId));
+            setFriends(friends => [...friends, friend]);
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
     }
 

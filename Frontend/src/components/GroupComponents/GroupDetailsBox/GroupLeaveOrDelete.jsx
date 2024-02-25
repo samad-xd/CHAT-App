@@ -15,27 +15,57 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
 
     const dispatch = useDispatch();
 
+    function confirmLeave() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Leave Group',
+                onClick: () => handleLeaveGroup()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            duration: 2000
+        })
+    }
+
     async function handleLeaveGroup() {
         setIsSubmitting(true);
-        await removeFromGroup(group._id, user._id);
-        setTimeout(() => {
-            toast.success('Group left successfully');
-        }, 2000);
-        setShowGroupDetails(false);
-        dispatch(changeSelectedGroup(null));
-        dispatch(removeGroup(group));
+        const response = await removeFromGroup(group._id, user._id);
+        if (response.status === 200) {
+            toast.success('Group left successfully', { duration: 2000 });
+            setShowGroupDetails(false);
+            dispatch(changeSelectedGroup(null));
+            dispatch(removeGroup(group));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
+    }
+
+    function confirmDelete() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Delete Group',
+                onClick: () => handleDeleteGroup()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            duration: 2000
+        })
     }
 
     async function handleDeleteGroup() {
         setIsSubmitting(true);
-        await deleteGroup(group._id);
-        setTimeout(() => {
-            toast.success('Group deleted successfully');
-        }, 2000);
-        setShowGroupDetails(false);
-        dispatch(changeSelectedGroup(null));
-        dispatch(removeGroup(group));
+        const response = await deleteGroup(group._id);
+        if (response.status === 200) {
+            toast.success('Group deleted successfully', { duration: 2000 });
+            setShowGroupDetails(false);
+            dispatch(changeSelectedGroup(null));
+            dispatch(removeGroup(group));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
     }
 
@@ -44,8 +74,8 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
             {isSubmitting ?
                 <Submitting /> :
                 <>
-                    <div className="group-red-button" onClick={handleLeaveGroup}>Leave Group</div>
-                    <div className='group-red-button' onClick={handleDeleteGroup}>Delete Group</div>
+                    <div className="group-red-button" onClick={confirmLeave}>Leave Group</div>
+                    <div className='group-red-button' onClick={confirmDelete}>Delete Group</div>
                 </>
             }
         </div>

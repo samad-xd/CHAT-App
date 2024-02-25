@@ -5,7 +5,7 @@ import { createGroup } from '../../../../APIs/GroupsAPI';
 import Dialog from '../../../Dialog/Dialog';
 import { addGroup } from '../../../../store/group';
 import { sendNotification } from '../../../../APIs/notificationAPI';
-import { makeToast } from '../../../../utils/toast';
+import { toast } from 'sonner';
 
 export default function NewGroupForm({ showDialog, setShowDialog }) {
 
@@ -32,12 +32,17 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
         let groupData = Object.fromEntries(formData);
         groupData = { ...groupData, friends: selectedFriends };
         const response = await createGroup(groupData);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setShowDialog(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(addGroup(response.data.group));
         event.target.reset();
         setShowDialog(false);
         groupData.friends.forEach(async (friendId) => {
-            if(user._id !== friendId) {
+            if (user._id !== friendId) {
                 const notification = {
                     type: 'groups',
                     from: user._id,

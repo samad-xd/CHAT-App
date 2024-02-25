@@ -4,7 +4,7 @@ import { addToGroup } from '../../../APIs/GroupsAPI';
 import { sendNotification } from '../../../APIs/notificationAPI';
 import Submitting from '../../LoadingComponents/Submitting/Submitting';
 import { useSelector } from 'react-redux';
-import { makeToast } from '../../../utils/toast';
+import { toast } from 'sonner';
 
 export default function AddGroupMember({ member, friends, setFriends, setMembers }) {
 
@@ -17,10 +17,15 @@ export default function AddGroupMember({ member, friends, setFriends, setMembers
     async function handelUserAdd(userId) {
         setIsSubmitting(true);
         const response = await addToGroup(group._id, userId);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
         const friend = friends.find(friend => friend._id === userId);
         setMembers(members => [...members, friend]);
         setFriends(friends => friends.filter(friend => friend._id !== userId));
+        toast.success(response.message, { duration: 2000 });
         setIsSubmitting(false);
         const notification = {
             type: 'groups',

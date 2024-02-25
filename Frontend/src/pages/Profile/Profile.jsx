@@ -6,19 +6,19 @@ import { useEffect, useState } from 'react';
 import { acceptFriendRequest, cancelFriendRequest, getUserProfile, rejectFriendRequest, removeFriend, sendFriendRequest } from '../../APIs/usersAPI';
 import { changeUser } from '../../store/auth';
 import { sendNotification } from '../../APIs/notificationAPI';
-import { makeToast } from '../../utils/toast';
+import { toast } from 'sonner';
+import Submitting from '../../components/LoadingComponents/Submitting/Submitting';
 
 export default function Profile() {
 
     const { userId } = useParams();
-
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const user = useSelector(state => state.authReducer.user);
 
     const [profile, setProfile] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         async function getProfile() {
@@ -29,17 +29,14 @@ export default function Profile() {
     }, [userId]);
 
     const isRequestSent = user.sentRequests.some(id => id === userId);
-
     const isRequestPending = user.pendingRequests.some(id => id === userId);
-
     const isFriendAlready = user.friends.some(id => id === userId);
-
     const isSameUser = user._id === userId;
 
     let button = (<div className="add-friend-button" onClick={handleSendRequest}>Add Friend</div>);
 
     if (isFriendAlready) {
-        button = (<div className="remove-friend-button" onClick={handleFriendRemove}>Remove Friend</div>);
+        button = (<div className="remove-friend-button" onClick={confirmFriendRemove}>Remove Friend</div>);
     }
 
     if (isSameUser) {
@@ -59,17 +56,42 @@ export default function Profile() {
         );
     }
 
+    function confirmFriendRemove() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Remove Friend',
+                onClick: () => handleFriendRemove()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            duration: 2000
+        })
+    }
+
     async function handleFriendRemove() {
+        setIsSubmitting(true);
         const response = await removeFriend(userId);
-        if(!makeToast(response)) return;
-        dispatch(changeUser(response.data.user));
-        navigate('/chats');
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeUser(response.data.user));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
+        setIsSubmitting(false);
     }
 
     async function handleSendRequest() {
+        setIsSubmitting(true);
         const response = await sendFriendRequest(userId);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
         const notification = {
             type: 'friends',
             from: user._id,
@@ -80,9 +102,14 @@ export default function Profile() {
     }
 
     async function handleAcceptRequest() {
+        setIsSubmitting(true);
         const response = await acceptFriendRequest(userId);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
+        setIsSubmitting(false);
         const notification = {
             type: 'friends',
             from: user._id,
@@ -93,15 +120,27 @@ export default function Profile() {
     }
 
     async function handleRejectRequest() {
+        setIsSubmitting(true);
         const response = await rejectFriendRequest(userId);
-        if(!makeToast(response)) return;
-        dispatch(changeUser(response.data.user));
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeUser(response.data.user));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
+        setIsSubmitting(false);
     }
 
     async function handleCancelRequest() {
+        setIsSubmitting(true);
         const response = await cancelFriendRequest(userId);
-        if(!makeToast(response)) return;
-        dispatch(changeUser(response.data.user));
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeUser(response.data.user));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
+        setIsSubmitting(false);
     }
 
     return (
@@ -115,7 +154,7 @@ export default function Profile() {
                     <div className='profile-header'>
                         <div className='image-border'>{profile.imageUrl ? <img src={profile.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}</div>
                         <div className='profile-name'>{profile.name}</div>
-                        {button}
+                        {isSubmitting ? <Submitting /> : button}
                     </div>
                     <div className='friends-cards-container'>
                         <div className='friends-title'>Friends</div>

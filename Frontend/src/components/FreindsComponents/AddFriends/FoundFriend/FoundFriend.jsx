@@ -7,7 +7,8 @@ import './FoundFriend.css';
 import { sendNotification } from '../../../../APIs/notificationAPI';
 import { useState } from 'react';
 import Submitting from '../../../LoadingComponents/Submitting/Submitting';
-import { makeToast } from '../../../../utils/toast';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export default function FoundFriend({ friend }) {
 
@@ -41,7 +42,12 @@ export default function FoundFriend({ friend }) {
     async function handleSendRequest() {
         setIsSubmitting(true);
         const response = await sendFriendRequest(friend._id);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
         const notification = {
@@ -56,7 +62,12 @@ export default function FoundFriend({ friend }) {
     async function handleAcceptRequest() {
         setIsSubmitting(true);
         const response = await acceptFriendRequest(friend._id);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
         const notification = {
@@ -71,7 +82,12 @@ export default function FoundFriend({ friend }) {
     async function handleRejectRequest() {
         setIsSubmitting(true);
         const response = await rejectFriendRequest(friend._id);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
     }
@@ -79,17 +95,22 @@ export default function FoundFriend({ friend }) {
     async function handleCancelRequest() {
         setIsSubmitting(true);
         const response = await cancelFriendRequest(friend._id);
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(changeUser(response.data.user));
         setIsSubmitting(false);
     }
 
     return (
         <div className="found-friend">
-            <div className="found-friend-details">
+            <Link to={`/profile/${friend._id}`} className="found-friend-details">
                 {friend.imageUrl ? <img src={friend.imageUrl} alt="profile-picture" /> : <img src="profile-picture.png" alt="profile-picture" />}
                 <div className="found-friend-name">{friend.name}</div>
-            </div>
+            </Link>
             {isSubmitting ? <Submitting /> : buttonContent}
         </div>
     );

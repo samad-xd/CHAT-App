@@ -20,13 +20,15 @@ export default function AddFriends() {
     function handleSearch() {
         const name = searchRef.current.value;
         if (name === '') return;
-        toast.promise(async () => {
+        toast.promise(new Promise(async (resolve, reject) => {
             const response = await findFriends(name);
             setFoundFriends(response.data.result);
-            return response.data.result.length;
-        }, {
+            response.data.result.length !== 0 ? resolve() : reject()
+        }), {
             loading: 'Fetching...',
-            success: (length) => length === 0 ? 'No one found with given name' : 'Fetched successfully'
+            success: 'Fetched successfully',
+            error: 'No one found with given name',
+            duration: 2000
         });
     }
 

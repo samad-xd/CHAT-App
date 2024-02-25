@@ -6,7 +6,7 @@ import { resetGroupState } from '../../../../store/group';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Submitting from '../../../LoadingComponents/Submitting/Submitting';
-import { makeToast } from '../../../../utils/toast';
+import { toast } from 'sonner';
 
 export default function DeleteAccount() {
 
@@ -16,10 +16,27 @@ export default function DeleteAccount() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    function confirmDelete() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Delete Account',
+                onClick: () => handleDeleteAccount()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            duration: 2000
+        })
+    }
+
     async function handleDeleteAccount() {
         setIsSubmitting(true);
         const response = await deleteAccount();
-        if(!makeToast(response)) return;
+        if (response.status !== 200) {
+            toast.error(response.message, { duration: 2000 });
+            return;
+        }
+        toast.success(response.message, { duration: 2000 });
         dispatch(updateLogoutState());
         dispatch(resetChatState());
         dispatch(resetGroupState());
@@ -31,7 +48,7 @@ export default function DeleteAccount() {
         <>
             {isSubmitting ?
                 <Submitting /> :
-                <div className='edit-button delete' onClick={handleDeleteAccount}>Delete Account</div>
+                <div className='edit-button delete' onClick={confirmDelete}>Delete Account</div>
             }
         </>
     );

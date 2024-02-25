@@ -90,7 +90,6 @@ export async function cancelFriendRequest(req, res) {
 
 export async function removeFriend(req, res) {
     const friendId = req.params.friendId;
-    console.log(req.params);
     try {
         const friend = await User.findById(friendId);
         const user = req.user;

@@ -3,7 +3,7 @@ import { updateProfilePicture } from "../../../../APIs/usersAPI";
 import { changeUser } from "../../../../store/auth";
 import { useState } from "react";
 import Submitting from "../../../LoadingComponents/Submitting/Submitting";
-import { makeToast } from "../../../../utils/toast";
+import { toast } from "sonner";
 
 export default function EditImage() {
 
@@ -19,8 +19,12 @@ export default function EditImage() {
         const formData = new FormData();
         formData.append('image', image);
         const response = await updateProfilePicture(formData);
-        if(!makeToast(response)) return;
-        dispatch(changeUser(response.data.user));
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+            dispatch(changeUser(response.data.user));
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
         setIsSubmitting(false);
     }
 

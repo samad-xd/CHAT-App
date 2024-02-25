@@ -16,10 +16,6 @@ export default function FriendRequests() {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    function handleSelectedRequest(requestType) {
-        setSelectedRequest(requestType);
-    }
-
     useEffect(() => {
         async function getFriendRequests() {
             setIsLoading(true);
@@ -43,13 +39,13 @@ export default function FriendRequests() {
                 <div className='request-types'>
                     <div
                         className='request-type'
-                        onClick={() => handleSelectedRequest('pending')}
+                        onClick={() => setSelectedRequest('pending')}
                     >
                         Pending
                     </div>
                     <div
                         className='request-type'
-                        onClick={() => handleSelectedRequest('sent')}
+                        onClick={() => setSelectedRequest('sent')}
                     >
                         Sent
                     </div>
