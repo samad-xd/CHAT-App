@@ -26,6 +26,7 @@ export default function ChatDetails({ showDetails, setShowDetails }) {
             cancel: {
                 label: 'Cancel',
             },
+            position: 'top-right',
             duration: 2000
         })
     }

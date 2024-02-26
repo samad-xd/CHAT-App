@@ -8,6 +8,7 @@ import { changeUser } from '../../store/auth';
 import { sendNotification } from '../../APIs/notificationAPI';
 import { toast } from 'sonner';
 import Submitting from '../../components/LoadingComponents/Submitting/Submitting';
+import Loading from '../../components/LoadingComponents/Loading/Loading';
 
 export default function Profile() {
 
@@ -18,12 +19,15 @@ export default function Profile() {
     const user = useSelector(state => state.authReducer.user);
 
     const [profile, setProfile] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         async function getProfile() {
+            setIsLoading(true);
             const response = await getUserProfile(userId);
             setProfile(response.data.user);
+            setIsLoading(false);
         }
         getProfile();
     }, [userId]);
@@ -147,26 +151,31 @@ export default function Profile() {
         <div className='profile-page'>
             {profile &&
                 <div className="profile-container">
-                    <div className='back-buttons'>
-                        <div className='back-button' onClick={() => navigate('/chat')}>Home</div>
-                        <div className='back-button' onClick={() => navigate(-1)}>Go Back</div>
-                    </div>
-                    <div className='profile-header'>
-                        <div className='image-border'>{profile.imageUrl ? <img src={profile.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}</div>
-                        <div className='profile-name'>{profile.name}</div>
-                        {isSubmitting ? <Submitting /> : button}
-                    </div>
-                    <div className='friends-cards-container'>
-                        <div className='friends-title'>Friends</div>
-                        <div className="friends-cards">
-                            {profile.friends.map(friend =>
-                                <Link to={`/profile/${friend._id}`} key={friend._id} className='friend-card'>
-                                    {friend.imageUrl ? <img src={friend.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}
-                                    <div className='friend-profile-name'>{friend.name}</div>
-                                </Link>
-                            )}
-                        </div>
-                    </div>
+                    {isLoading && <div className="profile-loading"><Loading /></div>}
+                    {!isLoading &&
+                        <>
+                            <div className='back-buttons'>
+                                <div className='back-button' onClick={() => navigate('/chat')}>Home</div>
+                                <div className='back-button' onClick={() => navigate(-1)}>Go Back</div>
+                            </div>
+                            <div className='profile-header'>
+                                <div className='image-border'>{profile.imageUrl ? <img src={profile.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}</div>
+                                <div className='profile-name'>{profile.name}</div>
+                                {isSubmitting ? <Submitting /> : button}
+                            </div>
+                            <div className='friends-cards-container'>
+                                <div className='friends-title'>Friends</div>
+                                <div className="friends-cards">
+                                    {profile.friends.map(friend =>
+                                        <Link to={`/profile/${friend._id}`} key={friend._id} className='friend-card'>
+                                            {friend.imageUrl ? <img src={friend.imageUrl} alt="Profile Picture" /> : <img src={profilePicture} alt="Profile Picture" />}
+                                            <div className='friend-profile-name'>{friend.name}</div>
+                                        </Link>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    }
                 </div>
             }
         </div>

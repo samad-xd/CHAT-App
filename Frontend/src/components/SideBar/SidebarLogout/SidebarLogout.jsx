@@ -54,14 +54,25 @@ export default function SidebarLogout({ open }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    function confirmLogout() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Logout',
+                onClick: () => handleLogout()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            position: 'bottom-left',
+            duration: 2000
+        })
+    }
+
     function handleLogout() {
-        const toastId = toast.success('Logout success.');
-        setTimeout(() => {
-            toast.dismiss(toastId);
-        }, 2000);
         dispatch(updateLogoutState());
         dispatch(resetChatState());
         dispatch(resetGroupState());
+        toast.success('Logout success.', { duration: 2000 });
         navigate('/login');
     }
 
@@ -72,7 +83,7 @@ export default function SidebarLogout({ open }) {
             animate={`${open}`}
             variants={variants}
             whileHover={{ scale: 1.05 }}
-            onClick={handleLogout}
+            onClick={confirmLogout}
         >
             <motion.span
                 initial={`${open}`}

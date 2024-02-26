@@ -6,6 +6,7 @@ import Dialog from '../../../Dialog/Dialog';
 import { addGroup } from '../../../../store/group';
 import { sendNotification } from '../../../../APIs/notificationAPI';
 import { toast } from 'sonner';
+import Submitting from '../../../LoadingComponents/Submitting/Submitting';
 
 export default function NewGroupForm({ showDialog, setShowDialog }) {
 
@@ -17,6 +18,8 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
 
     const [selectedFriends, setSelectedFriends] = useState([user._id]);
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     function handleFriendSelection(event) {
         if (event.target.checked) {
             setSelectedFriends((prevFriends) => [...prevFriends, event.target.value]);
@@ -27,6 +30,7 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
     }
 
     async function handleSubmit(event) {
+        setIsSubmitting(true);
         event.preventDefault();
         const formData = new FormData(event.target);
         let groupData = Object.fromEntries(formData);
@@ -34,12 +38,14 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
         const response = await createGroup(groupData);
         if (response.status !== 200) {
             toast.error(response.message, { duration: 2000 });
+            setIsSubmitting(false);
             setShowDialog(false);
             return;
         }
         toast.success(response.message, { duration: 2000 });
         dispatch(addGroup(response.data.group));
         event.target.reset();
+        setIsSubmitting(false);
         setShowDialog(false);
         groupData.friends.forEach(async (friendId) => {
             if (user._id !== friendId) {
@@ -66,7 +72,9 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
                         <label htmlFor={friend._id}>{friend.name}</label>
                     </div>)}
                 </div>
-                <button type='submit'>Create</button>
+                <div className="create-button">
+                    {isSubmitting ? <Submitting /> : <button type='submit'>Create</button>}
+                </div>
             </form>
         </Dialog>
     );
