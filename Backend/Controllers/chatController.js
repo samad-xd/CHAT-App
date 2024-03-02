@@ -59,6 +59,30 @@ export async function addMessage(req, res) {
     }
 }
 
+export async function deleteChat(req, res) {
+    const { friendId } = req.params;
+    try {
+        const chat = await Chat.findOne({ members: { $all: [friendId, req.user._id] } });
+        await Message.deleteMany({ chatId: chat._id });
+        res.status(200).json({ message: 'Chat deleted successfully.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server is having some issues.' });
+    }
+}
+
+export async function deleteAllChats(req, res, next) {
+    try {
+        const chats = await Chat.find({ members: { $in: [req.user._id] } });
+        chats.forEach(async (chat) => {
+            await Message.deleteMany({ chatId: chat._id });
+            await Chat.findByIdAndDelete(chat._id);
+        });
+        next();
+    } catch (error) {
+        res.status(500).json({ message: 'Server is having some issues.' });
+    }
+}
+
 export async function messageAI(req, res) {
     const message = req.body;
     try {

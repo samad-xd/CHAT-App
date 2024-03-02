@@ -61,8 +61,9 @@ export default function SidebarLogout({ open }) {
                 onClick: () => handleLogout()
             },
             cancel: {
-                label: 'Cancel',
+                label: 'Cancel'
             },
+            closeButton: true,
             position: 'bottom-left',
             duration: 2000
         })

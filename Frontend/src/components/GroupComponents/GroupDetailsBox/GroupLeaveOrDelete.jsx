@@ -24,6 +24,7 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
             cancel: {
                 label: 'Cancel',
             },
+            closeButton: true,
             position: 'bottom-center',
             duration: 2000
         })
@@ -52,6 +53,7 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
             cancel: {
                 label: 'Cancel',
             },
+            closeButton: true,
             position: 'bottom-center',
             duration: 2000
         })

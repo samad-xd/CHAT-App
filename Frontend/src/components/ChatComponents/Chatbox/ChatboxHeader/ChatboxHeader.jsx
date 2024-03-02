@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ChatDetails from './ChatDetails/ChatDetails';
 
-export default function ChatboxHeader() {
+export default function ChatboxHeader({ chat }) {
 
     const friend = useSelector(state => state.chatReducer.selectedChat);
 

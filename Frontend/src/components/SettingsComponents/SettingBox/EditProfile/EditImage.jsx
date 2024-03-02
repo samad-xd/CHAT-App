@@ -37,7 +37,7 @@ export default function EditImage() {
                         <Submitting /> :
                         <label className='edit-button'>
                             Change Picture
-                            <input type="file" onChange={handleImageChange} />
+                            <input type="file" accept='image/*' onChange={handleImageChange} />
                         </label>
                     }
                 </>
@@ -49,7 +49,7 @@ export default function EditImage() {
                         <Submitting /> :
                         <label className='edit-button'>
                             Add Picture
-                            <input type="file" onChange={handleImageChange} />
+                            <input type="file" accept='image/*' onChange={handleImageChange} />
                         </label>
                     }
                 </>

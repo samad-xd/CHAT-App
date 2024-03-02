@@ -25,6 +25,7 @@ export default function DeleteAccount() {
             cancel: {
                 label: 'Cancel',
             },
+            closeButton: true,
             duration: 2000
         })
     }

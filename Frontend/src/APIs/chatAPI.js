@@ -86,3 +86,19 @@ export async function getAImesssage(messageData) {
         };
     }
 }
+
+export async function deleteChat(id) {
+    API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    try {
+        const response = await API.get(`/delete/${id}`);
+        return {
+            status: response.status,
+            message: response.data.message
+        };
+    } catch (error) {
+        return {
+            status: error.response.status,
+            message: error.response.data.message
+        };
+    }
+}

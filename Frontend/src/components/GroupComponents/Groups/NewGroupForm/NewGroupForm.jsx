@@ -64,7 +64,7 @@ export default function NewGroupForm({ showDialog, setShowDialog }) {
         <Dialog showDialog={showDialog} setShowDialog={setShowDialog} >
             <form className="new-group-form" onSubmit={handleSubmit}>
                 <input type="text" name="groupName" placeholder='Group Name' required={true} />
-                <input type='file' name='image' placeholder='Group Image' />
+                <input type='file' name='image' placeholder='Group Image' accept='image/*' />
                 <div className='title-text'><span>Add friends to Group</span></div>
                 <div className="friends-checkboxes">
                     {friends.map(friend => <div key={friend._id} className='friend-checkbox'>

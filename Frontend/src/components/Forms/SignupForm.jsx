@@ -44,7 +44,7 @@ export default function SignupForm() {
                 <form className='login-form'>
                     <input type='text' name='name' placeholder='Name' required={true} />
                     <input type='email' name='email' placeholder='Email' required={true} />
-                    <input type="file" name="image" />
+                    <input type="file" name="image" accept='image/*' />
                     <input type='password' name='password' placeholder='Password' required={true} />
                     <input type='password' name='confirmPassword' placeholder='Confirm Password' required={true} />
                     {isSubmitting ? <Submitting /> : <button type='submit'>Sign up</button>}

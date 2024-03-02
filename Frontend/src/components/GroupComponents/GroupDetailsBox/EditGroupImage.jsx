@@ -39,7 +39,7 @@ export default function EditGroupImage() {
                         <Submitting /> :
                         <label className='group-edit-button'>
                             Change Picture
-                            <input type="file" onChange={handleImageChange} />
+                            <input type="file" accept='image/*' onChange={handleImageChange} />
                         </label>
                     }
                 </>
@@ -51,7 +51,7 @@ export default function EditGroupImage() {
                         <Submitting /> :
                         <label className='group-edit-button'>
                             Add Picture
-                            <input type="file" onChange={handleImageChange} />
+                            <input type="file" accept='image/*' onChange={handleImageChange} />
                         </label>
                     }
                 </>

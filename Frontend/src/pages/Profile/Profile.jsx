@@ -69,6 +69,7 @@ export default function Profile() {
             cancel: {
                 label: 'Cancel',
             },
+            closeButton: true,
             duration: 2000
         })
     }

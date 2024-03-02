@@ -4,6 +4,7 @@ import isAuth from '../Middlewares/auth.js';
 import { acceptFriendRequest, addFriendRequest, blockUser, cancelFriendRequest, deleteAcount, findFriends, getAllFriendRequests, getBlockedUsers, getUserProfile, rejectFriendRequest, removeFriend, unblockUser, updateName, updatePassword, updateProfilePicture } from '../Controllers/userController.js';
 import { upload, cloudinaryUpload, cloudinaryDelete } from '../Middlewares/upload.js';
 import { deleteUserNotifications } from '../Controllers/notificationController.js';
+import { deleteAllChats } from '../Controllers/chatController.js';
 
 const userRouter = express.Router();
 
@@ -35,6 +36,6 @@ userRouter.post('/update/password', isAuth, updatePassword);
 
 userRouter.post('/update/picture', isAuth, upload.single('image'), cloudinaryDelete, cloudinaryUpload, updateProfilePicture);
 
-userRouter.get('/delete/account', isAuth, deleteUserNotifications, deleteAcount);
+userRouter.get('/delete/account', isAuth, deleteUserNotifications, deleteAllChats, cloudinaryDelete, deleteAcount);
 
 export default userRouter;

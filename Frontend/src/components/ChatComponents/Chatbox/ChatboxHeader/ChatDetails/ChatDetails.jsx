@@ -8,6 +8,7 @@ import { blockUser } from '../../../../../APIs/usersAPI';
 import { changeUser } from '../../../../../store/auth';
 import { changeChats, changeSelectedChat } from '../../../../../store/chat';
 import { toast } from 'sonner';
+import { deleteChat } from '../../../../../APIs/chatAPI';
 
 export default function ChatDetails({ showDetails, setShowDetails }) {
 
@@ -51,6 +52,39 @@ export default function ChatDetails({ showDetails, setShowDetails }) {
         });
     }
 
+    function confirmChatDelete() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Delete Chat',
+                onClick: () => handleChatDelete()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            position: 'top-right',
+            duration: 2000
+        })
+    }
+
+    async function handleChatDelete() {
+        toast.promise(new Promise(async (resolve, reject) => {
+            const response = await deleteChat(friend._id);
+            if (response.status === 200) {
+                const friendData = { ...friend };
+                dispatch(changeSelectedChat(friendData));
+                setShowDetails(false);
+                resolve();
+            } else {
+                reject();
+            }
+        }), {
+            loading: 'Deleteing Chat...',
+            success: 'Chat deleted successfully.',
+            error: 'Failed to delete this chat.',
+            duration: 2000
+        });
+    }
+
     return (
         <div>
             {showDetails &&
@@ -59,6 +93,7 @@ export default function ChatDetails({ showDetails, setShowDetails }) {
                     <div className='chat-detail-options'>
                         <Link to={`/profile/${friend._id}`} className='chat-option'>View Profile</Link>
                         <div className='chat-option' onClick={confirmBlock} >Block User</div>
+                        <div className='chat-option' onClick={confirmChatDelete} >Delete Chat</div>
                     </div>
                 </div>
             }
