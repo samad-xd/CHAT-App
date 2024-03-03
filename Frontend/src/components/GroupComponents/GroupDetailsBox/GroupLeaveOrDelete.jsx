@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteGroup, removeFromGroup } from "../../../APIs/GroupsAPI";
+import { deleteGroup, deleteGroupChat, removeFromGroup } from "../../../APIs/GroupsAPI";
 import { changeSelectedGroup, removeGroup } from "../../../store/group";
 import { useState } from "react";
 import Submitting from "../../LoadingComponents/Submitting/Submitting";
@@ -14,6 +14,32 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const dispatch = useDispatch();
+
+    function confirmChatDelete() {
+        toast('Are you sure?', {
+            action: {
+                label: 'Delete Chat',
+                onClick: () => handleChatDelete()
+            },
+            cancel: {
+                label: 'Cancel',
+            },
+            closeButton: true,
+            position: 'bottom-center',
+            duration: 2000
+        })
+    }
+
+    async function handleChatDelete() {
+        setIsSubmitting(true);
+        const response = await deleteGroupChat(group._id);
+        if (response.status === 200) {
+            toast.success(response.message, { duration: 2000 });
+        } else {
+            toast.error(response.message, { duration: 2000 });
+        }
+        setIsSubmitting(false);
+    }
 
     function confirmLeave() {
         toast('Are you sure?', {
@@ -78,6 +104,7 @@ export default function GroupLeaveOrDelete({ setShowGroupDetails }) {
             {isSubmitting ?
                 <Submitting /> :
                 <>
+                    <div className="group-red-button" onClick={confirmChatDelete}>Delete Chat</div>
                     <div className="group-red-button" onClick={confirmLeave}>Leave Group</div>
                     <div className='group-red-button' onClick={confirmDelete}>Delete Group</div>
                 </>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { fetchChatData, fetchMessages, getAImesssage, sendMessage } from '../../../APIs/chatAPI';
+import { fetchChatData, fetchMessages, getAImesssage, sendImage, sendMessage } from '../../../APIs/chatAPI';
 import { socket } from '../../../pages/Chat/Chat';
 import MessageSend from './MessageSend/MessageSend';
 import ChatboxHeader from './ChatboxHeader/ChatboxHeader';
@@ -64,6 +64,19 @@ export default function Chatbox() {
         }
     }
 
+    async function handleImageSend(event) {
+        if (AI._id === friend._id) return;
+        const message = {
+            senderId: user._id,
+            chatId: chat._id,
+            image: event.target.files[0]
+        }
+        const response = await sendImage(message);
+        console.log(response);
+        setMessages([...messages, response.data.addedMessage]);
+        socket.emit('send-message', ({ message: response.data.addedMessage, receiverId: friend._id }));
+    }
+
     useEffect(() => {
         socket.on('receive-message', (message) => {
             setReceivedMessage(message);
@@ -88,7 +101,7 @@ export default function Chatbox() {
                 <div className="chatbox">
                     <ChatboxHeader />
                     <Messages isLoading={isLoading} messages={messages} />
-                    <MessageSend handleSend={handleSend} />
+                    <MessageSend handleSend={handleSend} handleImageSend={handleImageSend} />
                 </div>
             }
         </motion.div>

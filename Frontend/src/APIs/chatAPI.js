@@ -70,6 +70,27 @@ export async function sendMessage(messageData) {
     }
 }
 
+export async function sendImage(messageData) {
+    API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    try {
+        const response = await API.post('/message/image', messageData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return {
+            status: response.status,
+            message: response.data.message,
+            data: response.data
+        };
+    } catch (error) {
+        return {
+            status: error.response.status,
+            message: error.response.data.message
+        };
+    }
+}
+
 export async function getAImesssage(messageData) {
     API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     try {

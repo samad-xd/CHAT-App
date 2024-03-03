@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import './GroupChatbox.css';
 import GroupChatboxHeader from './GroupChatboxHeader/GroupChatboxHeader';
 import { useEffect, useState } from 'react';
-import { fetchGroupMessages, sendGroupMessage } from '../../../APIs/GroupsAPI';
+import { fetchGroupMessages, sendGroupImageMessage, sendGroupMessage } from '../../../APIs/GroupsAPI';
 import GroupMessages from './GroupMessages/GroupMessages';
 import MessageSend from '../../ChatComponents/Chatbox/MessageSend/MessageSend';
 import { useSelector } from 'react-redux';
@@ -42,6 +42,19 @@ export default function GroupChatbox({ setShowGroupDetails }) {
         await sendGroupMessage(message);
     }
 
+    async function handleImageSend(event) {
+        const message = {
+            senderId: user._id,
+            senderName: user.name,
+            groupId: group._id,
+            image: event.target.files[0]
+        }
+        const response = await sendGroupImageMessage(message);
+        setMessages([...messages, response.data.addedMessage]);
+        const members = group.members.filter(memberId => memberId !== user._id);
+        socket.emit('send-group-message', { members, message: response.data.addedMessage });
+    }
+
     useEffect(() => {
         socket.on('receive-group-message', (message) => {
             setReceivedMessage(message);
@@ -66,7 +79,7 @@ export default function GroupChatbox({ setShowGroupDetails }) {
                 <div className="chatbox">
                     <GroupChatboxHeader setShowGroupDetails={setShowGroupDetails} />
                     <GroupMessages messages={messages} isLoading={isLoading} />
-                    <MessageSend handleSend={handleSend} />
+                    <MessageSend handleSend={handleSend} handleImageSend={handleImageSend} />
                 </div>
             }
         </motion.div>

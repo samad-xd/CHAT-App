@@ -19,7 +19,10 @@ export default function GroupMessages({ messages, isLoading }) {
             {messages.map((message, index) => (
                 <div key={index} ref={scroll} className={message.senderId === user._id ? 'message own' : 'message'}>
                     {message.senderId !== user._id && <span className='sender-name'>{message.senderName}</span>}
-                    <div>{message.text}</div>
+                    {message.type === 'image' ?
+                        <img src={message.text} alt='Image' /> :
+                        <div>{message.text}</div>
+                    }
                     <span className='time-ago'>{format(message.createdAt)}</span>
                 </div>
             ))}

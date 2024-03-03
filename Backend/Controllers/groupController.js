@@ -1,3 +1,4 @@
+import { deleteCloudinaryImage } from "../Middlewares/upload.js";
 import { Group } from "../Models/GroupModel.js";
 import { GroupMessage } from "../Models/groupMessageModel.js";
 import { User } from "../Models/userModel.js";
@@ -77,6 +78,37 @@ export async function addGroupMessage(req, res) {
     }
 }
 
+export async function addGroupImageMessage(req, res) {
+    const { groupId, senderId, senderName } = req.body;
+    try {
+        let message = {
+            groupId,
+            senderId,
+            senderName,
+            type: 'image',
+            text: req.file.url
+        }
+        message = await GroupMessage.create(message);
+        res.status(200).json({ addedMessage: message, message: 'Image Message added successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server is having some issues.' });
+    }
+}
+
+export async function deleteGroupChat(req, res) {
+    const { groupId } = req.params;
+    try {
+        const messages = await GroupMessage.find({ groupId, type: 'image' });
+        messages.forEach(async (message) => {
+            await deleteCloudinaryImage(message.text);
+        });
+        await GroupMessage.deleteMany({ groupId });
+        res.status(200).json({ message: 'Group Chat deleted successfully.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server is having some issues.' });
+    }
+}
+
 export async function addToGroup(req, res) {
     const { userId, groupId } = req.params;
     try {
@@ -96,7 +128,7 @@ export async function removeFromGroup(req, res) {
         const members = group.members.filter(id => id.toString() !== userId.toString());
         group.members = members;
         await group.save();
-        if(members.length === 0) {
+        if (members.length === 0) {
             await Group.findByIdAndDelete(groupId);
         }
         res.status(200).json({ message: 'Member removed from Group successfully' });

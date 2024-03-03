@@ -15,6 +15,11 @@ const groupMessageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        enum: ['text', 'image'],
+        default: 'text'
+    },
     text: {
         type: String,
         required: true

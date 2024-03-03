@@ -18,7 +18,11 @@ export default function Messages({ isLoading, messages }) {
             {isLoading && <Loading />}
             {!isLoading && messages.map((message, index) => (
                 <div key={index} ref={scroll} className={message.senderId === user._id ? 'message own' : 'message'}>
-                    <div>{message.text}</div>
+                    {
+                        message.type === 'image' ? 
+                        <img src={message.text} alt='Image' /> : 
+                        <div>{message.text}</div>
+                    }
                     <span className='time-ago'>{format(message.createdAt)}</span>
                 </div>
             ))}

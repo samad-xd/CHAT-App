@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
 import InputEmoji from 'react-input-emoji';
 
-export default function MessageSend({ handleSend }) {
+export default function MessageSend({ handleSend, handleImageSend }) {
 
     const [newMessage, setNewMessage] = useState('');
 
@@ -14,9 +14,16 @@ export default function MessageSend({ handleSend }) {
         setNewMessage('');
     }
 
+    function handleImage() {
+        handleImageSend();
+    }
+
     return (
         <div className='inputs'>
-            <div className="add-file"><AddIcon /></div>
+            <label className="add-file">
+                <AddIcon />
+                <input type='file' accept='image/*' onChange={handleImageSend} />
+            </label>
             <div className='input-field'>
                 <InputEmoji
                     value={newMessage}

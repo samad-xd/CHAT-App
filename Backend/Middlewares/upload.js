@@ -34,7 +34,7 @@ export async function cloudinaryUpload(req, res, next) {
     };
     try {
         const uploadedImageData = await cloudinary.uploader.upload(imagePath, options);
-        
+
         req.file = uploadedImageData;
         next();
     } catch (error) {
@@ -69,6 +69,16 @@ export async function cloudinaryGroupImageDelete(req, res, next) {
     try {
         await cloudinary.uploader.destroy(publicId);
         next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
+    }
+}
+
+export async function deleteCloudinaryImage(imageUrl) {
+    const publicId = imageUrl.split('/').pop().split('.')[0];
+    try {
+        await cloudinary.uploader.destroy(publicId);
     } catch (error) {
         console.error(error);
         res.status(500).json(error.message);

@@ -11,6 +11,11 @@ const messageSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
+    type: {
+        type: String,
+        enum: ['text', 'image'],
+        default: 'text'
+    },
     text: {
         type: String,
         required: true

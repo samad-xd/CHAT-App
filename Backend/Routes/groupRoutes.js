@@ -1,7 +1,7 @@
 import express from 'express';
 
 import isAuth from '../Middlewares/auth.js';
-import { addGroupMessage, addToGroup, createGroup, deleteGroup, getAllGroups, getGroupMembers, getGroupMessages, getMembersNotInGroup, removeFromGroup, updateGroupImage, updateGroupName } from '../Controllers/groupController.js'
+import { addGroupImageMessage, addGroupMessage, addToGroup, createGroup, deleteGroup, deleteGroupChat, getAllGroups, getGroupMembers, getGroupMessages, getMembersNotInGroup, removeFromGroup, updateGroupImage, updateGroupName } from '../Controllers/groupController.js'
 import { cloudinaryGroupImageDelete, cloudinaryUpload, upload } from '../Middlewares/upload.js';
 import { deleteGroupNotifications } from '../Controllers/notificationController.js';
 
@@ -14,6 +14,10 @@ groupRouter.get('/all', isAuth, getAllGroups);
 groupRouter.get('/message/:groupId', isAuth, getGroupMessages);
 
 groupRouter.post('/message/send', isAuth, addGroupMessage);
+
+groupRouter.post('/message/image', isAuth, upload.single('image'), cloudinaryUpload, addGroupImageMessage);
+
+groupRouter.get('/delete/chat/:groupId', isAuth, deleteGroupChat);
 
 groupRouter.get('/add/:groupId/:userId', isAuth, addToGroup);
 

@@ -74,6 +74,43 @@ export async function sendGroupMessage(messageData) {
     }
 }
 
+export async function sendGroupImageMessage(messageData) {
+    API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    try {
+        const response = await API.post('/message/image', messageData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return {
+            status: response.status,
+            message: response.data.message,
+            data: response.data
+        };
+    } catch (error) {
+        return {
+            status: error.response.status,
+            message: error.response.data.message
+        };
+    }
+}
+
+export async function deleteGroupChat(id) {
+    API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    try {
+        const response = await API.get(`/delete/chat/${id}`);
+        return {
+            status: response.status,
+            message: response.data.message
+        };
+    } catch (error) {
+        return {
+            status: error.response.status,
+            message: error.response.data.message
+        };
+    }
+}
+
 export async function removeFromGroup(groupId, userId) {
     API.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     try {

@@ -93,6 +93,11 @@
     margin: 5px;
 }
 
+.message>img {
+    max-width: 20rem;
+    max-height: 20rem;
+}
+
 .time-ago {
     font-size: x-small;
     padding: 2px 10px;
@@ -125,4 +130,8 @@
 
 .add-file {
     cursor: pointer;
+}
+
+.add-file>input {
+    display: none;
 }

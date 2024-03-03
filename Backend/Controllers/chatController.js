@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { Chat } from "../Models/chatModel.js";
 import { Message } from "../Models/messageModel.js";
 import { User } from "../Models/userModel.js";
+import { deleteCloudinaryImage } from '../Middlewares/upload.js';
 
 dotenv.config();
 
@@ -59,10 +60,30 @@ export async function addMessage(req, res) {
     }
 }
 
+export async function addImage(req, res) {
+    const { chatId, senderId } = req.body;
+    try {
+        let message = {
+            chatId,
+            senderId,
+            type: 'image',
+            text: req.file.url
+        }
+        message = await Message.create(message);
+        res.status(200).json({ addedMessage: message, message: 'Message added successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server is having some issues.' });
+    }
+}
+
 export async function deleteChat(req, res) {
     const { friendId } = req.params;
     try {
         const chat = await Chat.findOne({ members: { $all: [friendId, req.user._id] } });
+        const messages = await Message.find({ chatId: chat._id, type: 'image' });
+        messages.forEach(async (message) => {
+            await deleteCloudinaryImage(message.text);
+        });
         await Message.deleteMany({ chatId: chat._id });
         res.status(200).json({ message: 'Chat deleted successfully.' });
     } catch (error) {
