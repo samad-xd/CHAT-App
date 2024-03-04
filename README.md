@@ -6,7 +6,7 @@ CHAT App is a messaging application that allows users to connect with friends, c
 
 ## Tech Stack
 
-**Client:** React, Redux
+**Client:** React, Redux, React Router
 
 **Server:** Node, Expresss, Mongoose, Socket IO
 
