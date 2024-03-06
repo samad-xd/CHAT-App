@@ -26,7 +26,7 @@ CHAT App is a messaging application that allows users to connect with friends, c
 - Block and Unblock Friends: Control your interactions with friends.
 
 #### Chat Features
-- Chat with AI: Engage in conversations with an AI bot.
+- Chat with AI: Engage in conversations with an AI bot and generate Images.
 - Real-time Chatting: Enjoy instant messaging with friends.
 - Send Emojis: Express yourself with a variety of emojis.
 - Send Images: Share images seamlessly.
