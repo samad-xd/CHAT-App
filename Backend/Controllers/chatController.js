@@ -106,8 +106,24 @@ export async function deleteAllChats(req, res, next) {
 
 export async function messageAI(req, res) {
     const message = req.body;
+    const isImagePrompt = message.text.split('-')[0].trim() === '/generate';
     try {
         await Message.create(message);
+        if (isImagePrompt) {
+            const prompt = message.text.split('-')[1].trim();
+            const response = await openai.images.generate({
+                model: "dall-e-2",
+                prompt,
+                n: 1
+            });
+            const newMessage = await Message.create({
+                senderId: AI_id,
+                chatId: message.chatId,
+                type: 'image',
+                text: response.data[0].url
+            });
+            return res.status(200).json({ message: newMessage });
+        }
         let oldMessages = await Message.find({ chatId: message.chatId });
         oldMessages = oldMessages.map(message => {
             const role = message.senderId === AI_id ? 'assistant' : 'user';
